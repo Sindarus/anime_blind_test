@@ -1,5 +1,8 @@
 TESTABLE_ANIME_TYPES = ["TV", "OVA", "ONA"]
 
+var user_animelist;
+var player;
+
 window.onload = function() {
 	username_form_elt = document.querySelector('#nickname_form');
 	username_form_button_elt = document.querySelector('#nickname_form button');
@@ -8,6 +11,7 @@ window.onload = function() {
 
 	confirmation_form = document.querySelector("#confirmation_form")
 	confirmation_form_animelist = document.querySelector('#confirmation_form #user_animelist');
+	confirmation_form_button = document.querySelector("#confirmation_form button")
 
 	username_form_button_elt.onclick = function() {
 		let user_nickname = username_form_input_elt.value;
@@ -39,4 +43,30 @@ window.onload = function() {
 			confirmation_form.style.display = "block";
 		}
 	}
+
+	confirmation_form_button.onclick = function() {
+		
+	}
+}
+
+function onYouTubeIframeAPIReady() {
+	player = new YT.Player('video_placeholder', {
+		height: '360',
+		width: '640',
+		videoId: 'M7lc1UVf-VE',
+		events: {
+			'onReady': onPlayerReady,
+			//'onStateChange': onPlayerStateChange
+		},
+		playerVars: {
+			enablejsapi: 1,
+			controls: 0,
+			disablekb: 1,
+			modestbranding: 0
+		}
+	});
+}
+
+function onPlayerReady(event) {
+	event.target.playVideo()
 }
