@@ -7,11 +7,40 @@
 
 		<link rel="stylesheet" type="text/css" href="">
 		<script src="JS/main.js"></script>
-		<script src="https://www.youtube.com/iframe_api"></script>
+
+		<style>
+			html, body {
+				margin: 0;
+				height: 100%;
+				/*overflow: hidden*/
+			}
+			#video_wrapper {
+				background-color: #111;
+				height: 100vh;
+			}
+			#video {
+				/*border: 3px red solid;*/
+				height: 100%;
+				width: 100%;
+				opacity: 0.5;
+			}
+			#spinner {
+				position: fixed;
+				bottom: 0;
+				right: 0;
+				border: 3px red solid;
+				height: 100px;
+				width: 100px;
+				-webkit-animation:spin 4s linear infinite;
+			    -moz-animation:spin 4s linear infinite;
+			    animation:spin 4s linear infinite;
+			}
+			@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+			@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+			@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+		</style>
 	</head>
 	<body>
-		<h1>Anime Blind Test</h1>
-
 		<div id="nickname_form">
 			<input type="text" id="mal_nickname" name="mal_nickname">
 			<button>Load my anime list !</button>
@@ -23,6 +52,11 @@
 			<button>Blind test me !</button>
 		</div>
 
-		<div id="video_placeholder"></div>
+		<div id="video_wrapper" style="display: None">
+			<video controls id="video">
+				<source src="video/girigirilove.mp4" type="video/mp4">
+			</video>
+			<img id="spinner" src="images/spinner_ds.png">
+		</div>
 	</body>
 </html>
