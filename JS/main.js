@@ -1,5 +1,6 @@
 TESTABLE_ANIME_TYPES = ["TV", "OVA", "ONA"]
 TIME_BEFORE_REVEAL = 10
+TIME_BEFORE_NEXT = 10
 
 AVAILABLE_VIDEOS_MOCK = [
     {
@@ -36,13 +37,15 @@ window.onload = function() {
 	username_form_input_elt = document.querySelector('#nickname_form input');
 	username_form_loading_msg_elt = document.querySelector('#nickname_form .loading_msg');
 
-	confirmation_form = document.querySelector("#confirmation_form")
+	confirmation_form = document.querySelector("#confirmation_form");
 	confirmation_form_animelist = document.querySelector('#confirmation_form #user_animelist');
-	confirmation_form_button = document.querySelector("#confirmation_form button")
+	confirmation_form_button = document.querySelector("#confirmation_form button");
 
-	video_wrapper_elt = document.querySelector("#video_wrapper")
+	video_wrapper_elt = document.querySelector("#video_wrapper");
 	video_elt = document.querySelector("#video")
 	video_source_elt = document.querySelector("#video source");
+	spinner_container_elt = document.querySelector("#spinner_container")
+	timer_elt = document.querySelector("#timer")
 
 	indexed_available_video_items = load_available_video_items()
 
@@ -79,7 +82,20 @@ window.onload = function() {
 		video_wrapper_elt.style.display = "block";
 
 		blindtest_new_video(user_animelist)
-	}
+	};
+
+	video.ontimeupdate = function(e) {
+		console.log("video time update")
+		if(video.currentTime > TIME_BEFORE_REVEAL) {
+			video.style.opacity = 1;
+			spinner_container_elt.style.opacity = 0;
+		}
+		else {
+			video.style.opacity = 0;
+			spinner_container_elt.style.opacity = 1;
+			timer_elt.innerText = Math.ceil(TIME_BEFORE_REVEAL - video.currentTime)
+		}
+	};
 }
 
 function blindtest_new_video() {
@@ -88,10 +104,10 @@ function blindtest_new_video() {
 	filename = current_video["file"]
 	ext = mimeToExt(current_video["mime"][0])	// select first mime
 
-	video_source_elt.setAttribute("src", "video/" + encodeURIComponent(filename + ext))
+	video_source_elt.setAttribute("src", "videos/" + encodeURIComponent(filename + ext))
 	video_elt.load()
 	video_elt.autoplay = true
-
+	// TODO: play even if no enough data ?
 
 	// TODO : après 15 secondes, lever le voile + Afficher le nom de l'anime + la musique
 }

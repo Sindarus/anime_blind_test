@@ -5,7 +5,7 @@
 
 		<title>Anime Blind Test</title>
 
-		<link rel="stylesheet" type="text/css" href="">
+		<!-- <link rel="stylesheet" type="text/css" href=""> -->
 		<script src="JS/main.js"></script>
 
 		<style>
@@ -18,17 +18,19 @@
 				background-color: #111;
 				height: 100vh;
 			}
-			#video {
+			#video_wrapper #video {
 				/*border: 3px red solid;*/
 				height: 100%;
 				width: 100%;
 				opacity: 0.5;
 			}
-			#spinner {
+			#video_wrapper #spinner_container {
 				position: fixed;
 				bottom: 0;
 				right: 0;
-				border: 3px red solid;
+				/*border: 3px red solid;*/
+			}
+			#video_wrapper #spinner_container img {
 				height: 100px;
 				width: 100px;
 				-webkit-animation:spin 4s linear infinite;
@@ -38,6 +40,9 @@
 			@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 			@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 			@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+			#video_wrapper #spinner_container #timer {
+				color: white;
+			}
 		</style>
 	</head>
 	<body>
@@ -53,10 +58,13 @@
 		</div>
 
 		<div id="video_wrapper" style="display: None">
-			<video controls id="video">
-				<source src="video/girigirilove.mp4" type="video/mp4">
+			<video id="video" style="opacity: 0;">
+				<source src="videos/girigirilove.mp4" type="video/mp4">
 			</video>
-			<img id="spinner" src="images/spinner_ds.png">
+			<div id="spinner_container">
+				<p id="timer"></p>
+				<img id="spinner" src="images/spinner_ds.png">
+			</div>
 		</div>
 	</body>
 </html>
