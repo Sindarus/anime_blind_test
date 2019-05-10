@@ -1,22 +1,22 @@
 TESTABLE_ANIME_TYPES = ["TV", "OVA", "ONA"]
-TIME_BEFORE_REVEAL = 5
-TIME_BEFORE_NEXT = 5
+TIME_BEFORE_REVEAL = 15
+TIME_BEFORE_NEXT = 10
 
-AVAILABLE_VIDEOS_MOCK = [
-    {
-        "title": "Insert song 1",
-        "source": "girigiri",
-        "file": "girigirilove",
-        "mime": [
-            "video/mp4"
-        ],
-        "song": {
-            "title": "Giri Giri Ai",
-            "artist": "?"
-        }
-    },
-]
-USER_ANIMELIST_MOCK = ['girigiri']
+// AVAILABLE_VIDEOS_MOCK = [
+//     {
+//         "title": "Insert song 1",
+//         "source": "girigiri",
+//         "file": "girigirilove",
+//         "mime": [
+//             "video/mp4"
+//         ],
+//         "song": {
+//             "title": "Giri Giri Ai",
+//             "artist": "?"
+//         }
+//     },
+// ]
+// USER_ANIMELIST_MOCK = ['girigiri']
 
 var indexed_available_video_items;
 var testable_user_animes;
@@ -89,7 +89,6 @@ window.onload = function() {
 	};
 
 	video.ontimeupdate = function(e) {
-		console.log("video time update")
 		if(video.currentTime > TIME_BEFORE_REVEAL + TIME_BEFORE_NEXT) {
 			// We should get new video
 			blindtest_new_video()
@@ -113,16 +112,23 @@ window.onload = function() {
 
 function blindtest_new_video() {
 	current_video = choose_video_to_blindtest()
+	console.log("blindtested video: ", current_video)
 
 	title_elt.innerText = "Anime: " + current_video["source"] + "\n"
-	title_elt.innerText += "Song: " + current_video["song"]["title"] + "\n"
-	title_elt.innerText += "Artist: " + current_video["song"]["artist"]
+	if (typeof current_video["song"] !== 'undefined'){
+		if (typeof current_video["song"]["title"] !== 'undefined'){
+			title_elt.innerText += "Song: " + current_video["song"]["title"] + "\n"
+		}
+		if (typeof current_video["song"]["artist"] !== 'undefined'){
+			title_elt.innerText += "Artist: " + current_video["song"]["artist"]
+		}
+	}
 	
 	filename = current_video["file"]
 	ext = mimeToExt(current_video["mime"][0])	// select first mime
 
-	video_source_elt.setAttribute("src", "videos/" + encodeURIComponent(filename + ext))
-	//video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext))
+	//video_source_elt.setAttribute("src", "videos/" + encodeURIComponent(filename + ext))
+	video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext))
 	video_elt.load()
 	video_elt.autoplay = true
 
