@@ -17,6 +17,7 @@
 			#video_wrapper {
 				background-color: #111;
 				height: 100vh;
+				color: white;
 			}
 			#video_wrapper #video {
 				/*border: 3px red solid;*/
@@ -28,7 +29,6 @@
 				position: fixed;
 				bottom: 0;
 				right: 0;
-				/*border: 3px red solid;*/
 			}
 			#video_wrapper #spinner_container img {
 				height: 100px;
@@ -40,8 +40,10 @@
 			@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
 			@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
 			@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
-			#video_wrapper #spinner_container #timer {
-				color: white;
+			#video_wrapper #title_container {
+				position: fixed;
+				bottom: 0;
+				right: left;
 			}
 		</style>
 	</head>
@@ -64,6 +66,9 @@
 			<div id="spinner_container">
 				<p id="timer"></p>
 				<img id="spinner" src="images/spinner_ds.png">
+			</div>
+			<div id="title_container" style="opacity: 0;">
+				<p id="title"></p>
 			</div>
 		</div>
 	</body>

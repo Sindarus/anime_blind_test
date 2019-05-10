@@ -1,6 +1,6 @@
 TESTABLE_ANIME_TYPES = ["TV", "OVA", "ONA"]
-TIME_BEFORE_REVEAL = 10
-TIME_BEFORE_NEXT = 10
+TIME_BEFORE_REVEAL = 5
+TIME_BEFORE_NEXT = 5
 
 AVAILABLE_VIDEOS_MOCK = [
     {
@@ -45,7 +45,11 @@ window.onload = function() {
 	video_elt = document.querySelector("#video")
 	video_source_elt = document.querySelector("#video source");
 	spinner_container_elt = document.querySelector("#spinner_container")
+	spinner_elt = document.querySelector("#spinner")
 	timer_elt = document.querySelector("#timer")
+
+	title_container_elt = document.querySelector("#title_container")
+	title_elt = document.querySelector("#title")
 
 	indexed_available_video_items = load_available_video_items()
 
@@ -81,18 +85,27 @@ window.onload = function() {
 		confirmation_form.style.display = "none";
 		video_wrapper_elt.style.display = "block";
 
-		blindtest_new_video(user_animelist)
+		blindtest_new_video()
 	};
 
 	video.ontimeupdate = function(e) {
 		console.log("video time update")
-		if(video.currentTime > TIME_BEFORE_REVEAL) {
+		if(video.currentTime > TIME_BEFORE_REVEAL + TIME_BEFORE_NEXT) {
+			// We should get new video
+			blindtest_new_video()
+		}
+		else if (video.currentTime > TIME_BEFORE_REVEAL) {
+			// Video should be revealed
 			video.style.opacity = 1;
-			spinner_container_elt.style.opacity = 0;
+			title_container_elt.style.opacity = 1;
+			spinner_elt.style.opacity = 0;
+			timer_elt.innerText = Math.ceil(TIME_BEFORE_NEXT - (video.currentTime - TIME_BEFORE_REVEAL))
 		}
 		else {
+			// Video should play blacked out
 			video.style.opacity = 0;
-			spinner_container_elt.style.opacity = 1;
+			title_container_elt.style.opacity = 0;
+			spinner_elt.style.opacity = 1;
 			timer_elt.innerText = Math.ceil(TIME_BEFORE_REVEAL - video.currentTime)
 		}
 	};
@@ -100,16 +113,20 @@ window.onload = function() {
 
 function blindtest_new_video() {
 	current_video = choose_video_to_blindtest()
+
+	title_elt.innerText = "Anime: " + current_video["source"] + "\n"
+	title_elt.innerText += "Song: " + current_video["song"]["title"] + "\n"
+	title_elt.innerText += "Artist: " + current_video["song"]["artist"]
 	
 	filename = current_video["file"]
 	ext = mimeToExt(current_video["mime"][0])	// select first mime
 
 	video_source_elt.setAttribute("src", "videos/" + encodeURIComponent(filename + ext))
+	//video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext))
 	video_elt.load()
 	video_elt.autoplay = true
-	// TODO: play even if no enough data ?
 
-	// TODO : après 15 secondes, lever le voile + Afficher le nom de l'anime + la musique
+	choose_video_to_blindtest
 }
 
 function get_user_anime_list(username){
