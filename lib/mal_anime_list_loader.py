@@ -17,8 +17,9 @@ class MALAnimeListLoader(object):
         animelist_res = requests.get(url)
 
         if animelist_res.status_code != 200:
-            raise AssertionError("Could not load user animelist. "
+            raise AssertionError("Could not load user animelist at url {url}. "
                                  "Got HTTP{code} with content: {content} ".format(
+                url=url,
                 code=animelist_res.status_code,
                 content=animelist_res.text
             ))

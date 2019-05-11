@@ -1,26 +1,11 @@
-TESTABLE_ANIME_TYPES = ["TV", "OVA", "ONA"]
+// Interface options
 TIME_BEFORE_REVEAL = 20
 TIME_BEFORE_NEXT = 10
 
-MOCK_MODE = false
-AVAILABLE_VIDEOS_MOCK = [
-    {
-        "title": "Insert song 1",
-        "source": "girigiri",
-        "file": "girigirilove",
-        "mime": [
-            "video/mp4"
-        ],
-        "song": {
-            "title": "Giri Giri Ai",
-            "artist": "?"
-        }
-    },
-]
-USER_ANIMELIST_MOCK = ['girigiri']
-
-var indexed_available_video_items;
-var testable_user_animes;
+// Global variables
+var user_animelist;
+var testable_animes;
+var testable_videos;
 
 Array.prototype.randomElement = function () {
     return this[Math.floor(Math.random() * this.length)]
@@ -52,17 +37,15 @@ window.onload = function() {
 	title_container_elt = document.querySelector("#title_container")
 	title_elt = document.querySelector("#title")
 
-	indexed_available_video_items = load_available_video_items()
-
 	username_form_button_elt.onclick = function() {
-
+	    // TODO: validate user input
 		let username = username_form_input_elt.value;
 
 		username_form_loading_msg_elt.style.display = "block";
-		let user_animelist = get_user_anime_list(username)
+		load_user_data_success = load_user_data(username)
 		username_form_loading_msg_elt.style.display = "none";
 
-		if(user_animelist == -1){
+		if(load_user_data_success == -1){
 			alert("Your animelist could not be retrieved. Please check your username and retry.");
 			return;
 		}
@@ -70,16 +53,14 @@ window.onload = function() {
 		//hide username_form
 		username_form_elt.style.display = "none";
 
-		testable_user_animes = compute_testable_user_animes(user_animelist, indexed_available_video_items)
-
 		let info = "Your anime list: " + user_animelist + "\n\n";
-		info += "Available animes for testing : " + testable_user_animes + "\n\n";
-		info += "That's " + testable_user_animes.length + " out of " + user_animelist.length + "\n\n";
-		info += "Unavailable animes:" + user_animelist.filter(elt => !testable_user_animes.includes(elt));
+		info += "Available animes for testing : " + testable_animes + "\n\n";
+		info += "That's " + testable_animes.length + " out of " + user_animelist.length + "\n\n";
+		info += "Unavailable animes:" + user_animelist.filter(elt => !testable_animes.includes(elt));
 		confirmation_form_animelist.innerText = info
 		confirmation_form.style.display = "block";
 
-		console.log("Animes available for testing: ", testable_user_animes.length + " out of " + user_animelist.length)
+		console.log("Animes available for testing: ", testable_animes.length + " out of " + user_animelist.length)
 	}
 
 	confirmation_form_button.onclick = function() {
@@ -129,97 +110,34 @@ function blindtest_new_video() {
 	
 	filename = current_video["file"]
 	ext = mimeToExt(current_video["mime"][0])	// select first mime
-
-	if (MOCK_MODE) {
-		video_source_elt.setAttribute("src", "videos/" + encodeURIComponent(filename + ext))
-	}
-	else {
-		video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext))
-	}
+	video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext))
 	video_elt.load()
 	video_elt.autoplay = true
 
 	choose_video_to_blindtest
 }
 
-function get_user_anime_list(username){
-	console.log("Retrieving user animelist")
-	if (MOCK_MODE){
-		console.log("User animelist was mocked with ", USER_ANIMELIST_MOCK.length, " animes.")
-		return USER_ANIMELIST_MOCK
-	}
-	//"https://myanimelist.net/animelist/" + username + "/load.json?offset=0&status=2",
-	let query_url = "https://api.jikan.moe/v3/user/" + username + "/animelist/completed"
+function load_user_data(username){
+    console.log("Retrieving user anime data")
+    let query_url = "/api/v1/get-testable-videos/from-MAL"
 	let r = new XMLHttpRequest();
-	r.open("GET", query_url, false);  // async: false
-	
-	r.send();
+	r.open("POST", query_url, false);  // async: false
+	r.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	r.send(`MAL_username=${username}`); // backticks are required for string interpolation to work
 
 	if (r.status != 200) {
-		console.log("Could not load animelist : got status ", r.status, " with content : ", r.response)
+		console.log("Could not load your animelist : got status ", r.status, " with content : ", r.response)
 		return -1
 	}
-	else{
-		let user_full_animelist = JSON.parse(r.response)["anime"]
-		let user_animelist = user_full_animelist.filter(
-			elt => TESTABLE_ANIME_TYPES.includes(elt["type"])
-		).map(
-			elt => elt["title"].toLowerCase()
-		)
-		console.log("User ", username, " has got ", user_full_animelist.length, " animes, of which ", user_animelist.length, " are eligible to blindtesting.");
-		return user_animelist;
-	}
-}
-
-function load_available_video_items(){
-	console.log("Loading openings.moe video list")
-	if (MOCK_MODE){
-		console.log("Loaded mock list of ", AVAILABLE_VIDEOS_MOCK.length, " videos.")
-		return index_video_items(AVAILABLE_VIDEOS_MOCK)
-	}
-	let query_url = "https://openings.moe/api/list.php"
-	let r = new XMLHttpRequest();
-	r.open("GET", query_url, false);  // async: false
-	r.send();
-
-	if (r.status != 200) {
-		console.log("Could not load available animes : got status ", r.status, " with content : ", r.response)
-		alert("Could not load the list of available animes.");
-	}
 	else {
-		let available_video_items = JSON.parse(r.response)
-		console.log("Successfully loaded list of ", available_video_items.length, " videos.")
-		return index_video_items(available_video_items)
+	    let user_data = JSON.parse(r.response)
+        user_animelist = user_data["user_animelist"]
+        testable_animes = user_data["testable_animes"]
+        testable_videos = user_data["testable_videos"]
 	}
-}
-
-function compute_testable_user_animes(user_animelist, indexed_available_video_items) {
-	/*
-	user_animelist: array of lowercased strings
-	indexed_available_video_items: object whose keys are lowercased strings
-	*/
-	available_animes = Object.keys(indexed_available_video_items)
-	return available_animes.filter(
-		value => user_animelist.includes(value)
-	)
-}
-
-function index_video_items(video_items) {
-	let indexed_items = {};
-	for(var i=0; i<video_items.length; i++){
-		let cur_video_item = video_items[i];
-		let cur_video_source = cur_video_item["source"].toLowerCase()
-		if(indexed_items[cur_video_source] instanceof Array){
-			indexed_items[cur_video_source].push(cur_video_item)
-		}
-		else{
-			indexed_items[cur_video_source] = [cur_video_item]
-		}
-	}
-	return indexed_items
 }
 
 function choose_video_to_blindtest(){
-	let selected_anime = testable_user_animes.randomElement()
-	return indexed_available_video_items[selected_anime].randomElement()
+	let selected_anime = testable_animes.randomElement()
+	return testable_videos[selected_anime].randomElement()
 }

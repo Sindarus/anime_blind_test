@@ -1,5 +1,4 @@
 # coding: utf8
-import logging
 
 from flask import Flask, render_template, request, jsonify
 
@@ -24,7 +23,15 @@ def get_testable_videos_from_mal():
 
     opmoe_video_list = get_opmoe_video_list()
 
-    return jsonify({
+    testable_videos_list = {
         anime: opmoe_video_list[anime]
         for anime in normalized_animelist if opmoe_video_list.get(anime) is not None
-    })
+    }
+
+    response_json = {
+        "user_animelist": animelist,
+        "testable_animes": list(testable_videos_list.keys()),
+        "testable_videos": testable_videos_list
+    }
+
+    return jsonify(response_json)
