@@ -6,7 +6,7 @@
 		<title>Anime Blind Test</title>
 
 		<!-- <link rel="stylesheet" type="text/css" href=""> -->
-		<script src="static/JS/main.js"></script>
+		<script src="{{url_for('static', filename='JS/main.js') }}"></script>
 
 		<style>
 			html, body {
@@ -69,7 +69,7 @@
 			</video>
 			<div id="spinner_container">
 				<p id="timer"></p>
-				<img id="spinner" src="static/images/spinner_ds.png">
+				<img id="spinner" src="{{url_for('static', filename='images/spinner_ds.png') }}">
 			</div>
 			<div id="title_container" style="opacity: 0;">
 				<p id="title"></p>
