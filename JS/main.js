@@ -92,6 +92,8 @@ window.onload = function() {
 	video.ontimeupdate = function(e) {
 		if(video.currentTime > TIME_BEFORE_REVEAL + TIME_BEFORE_NEXT) {
 			// We should get new video
+			video.style.opacity = 0;
+			title_container_elt.style.opacity = 0;
 			blindtest_new_video()
 		}
 		else if (video.currentTime > TIME_BEFORE_REVEAL) {
