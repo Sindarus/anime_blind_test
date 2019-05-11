@@ -2,21 +2,22 @@ TESTABLE_ANIME_TYPES = ["TV", "OVA", "ONA"]
 TIME_BEFORE_REVEAL = 15
 TIME_BEFORE_NEXT = 10
 
-// AVAILABLE_VIDEOS_MOCK = [
-//     {
-//         "title": "Insert song 1",
-//         "source": "girigiri",
-//         "file": "girigirilove",
-//         "mime": [
-//             "video/mp4"
-//         ],
-//         "song": {
-//             "title": "Giri Giri Ai",
-//             "artist": "?"
-//         }
-//     },
-// ]
-// USER_ANIMELIST_MOCK = ['girigiri']
+MOCK_MODE = false
+AVAILABLE_VIDEOS_MOCK = [
+    {
+        "title": "Insert song 1",
+        "source": "girigiri",
+        "file": "girigirilove",
+        "mime": [
+            "video/mp4"
+        ],
+        "song": {
+            "title": "Giri Giri Ai",
+            "artist": "?"
+        }
+    },
+]
+USER_ANIMELIST_MOCK = ['girigiri']
 
 var indexed_available_video_items;
 var testable_user_animes;
@@ -127,8 +128,12 @@ function blindtest_new_video() {
 	filename = current_video["file"]
 	ext = mimeToExt(current_video["mime"][0])	// select first mime
 
-	//video_source_elt.setAttribute("src", "videos/" + encodeURIComponent(filename + ext))
-	video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext))
+	if (MOCK_MODE) {
+		video_source_elt.setAttribute("src", "videos/" + encodeURIComponent(filename + ext))
+	}
+	else {
+		video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext))
+	}
 	video_elt.load()
 	video_elt.autoplay = true
 
@@ -137,7 +142,7 @@ function blindtest_new_video() {
 
 function get_user_anime_list(username){
 	console.log("Retrieving user animelist")
-	if (typeof USER_ANIMELIST_MOCK !== 'undefined'){
+	if (MOCK_MODE){
 		console.log("User animelist was mocked with ", USER_ANIMELIST_MOCK.length, " animes.")
 		return USER_ANIMELIST_MOCK
 	}
@@ -166,7 +171,7 @@ function get_user_anime_list(username){
 
 function load_available_video_items(){
 	console.log("Loading openings.moe video list")
-	if (typeof AVAILABLE_VIDEOS_MOCK !== 'undefined'){
+	if (MOCK_MODE){
 		console.log("Loaded mock list of ", AVAILABLE_VIDEOS_MOCK.length, " videos.")
 		return index_video_items(AVAILABLE_VIDEOS_MOCK)
 	}
