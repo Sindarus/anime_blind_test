@@ -2,8 +2,8 @@
 
 from flask import Flask, render_template, request, jsonify
 
-from lib.helpers import normalize_animelist, get_opmoe_video_list
-from lib.mal_anime_list_loader import MALAnimeListLoader
+from app.lib.helpers import normalize_animelist, get_opmoe_video_list
+from app.lib.mal_anime_list_loader import MALAnimeListLoader
 
 app = Flask(__name__)
 

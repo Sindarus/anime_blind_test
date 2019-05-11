@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from lib.mal_anime_list_loader import MALAnimeListLoader
+from app.lib.mal_anime_list_loader import MALAnimeListLoader
 
 
 class TestMALAnimeListLoader(TestCase):

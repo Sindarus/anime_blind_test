@@ -4,7 +4,7 @@ from unittest import TestCase
 
 from flask import current_app as app, Flask
 
-from lib.helpers import get_opmoe_video_list
+from app.lib.helpers import get_opmoe_video_list
 
 app = Flask(__name__)
 

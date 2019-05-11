@@ -4,3 +4,4 @@ __pycache__/*
 venv/*
 .idea/*
 */__pycache__/*
+analyse.txt

@@ -2,7 +2,6 @@
 import json
 
 import requests
-from flask import make_response, jsonify
 
 TESTABLE_MAL_MEDIA_TYPES = ["TV", "OVA", "ONA"]
 
