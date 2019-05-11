@@ -1,0 +1,20 @@
+[
+  {
+    "opmoe_name": "Kono Subarashii Sekai ni Shukufuku o! (KonoSuba)",
+    "mal_name": "Kono Subarashii Sekai ni Shukufuku wo!",
+    "mal_id": 30831,
+    "_map_origin": "hand_added"
+  },
+  {
+    "opmoe_name": "Boku dake ga Inai Machi (ERASED)",
+    "mal_name": "Boku dake ga Inai Machi",
+    "mal_id": 31043,
+    "_map_origin": "first_search_result_on_mal"
+  },
+  {
+    "opmoe_name": "Black Lagoon",
+    "mal_name": "Black Lagoon",
+    "mal_id": 889,
+    "_map_origin": "exact_name_match",
+  }
+]
