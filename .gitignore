@@ -1,2 +1,4 @@
 videos/*
 notes.txt
+__pycache__/*
+venv/*
