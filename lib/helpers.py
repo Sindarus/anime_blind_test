@@ -14,7 +14,9 @@ opmoe_video_list_cache = {
 
 
 def normalize_animelist(animelist):
-    # TODO: implement + rewrite the return stmt of get_testable_videos_from_mal
+    """Normalize according to opmoe's naming system"""
+    # TODO: implement (1st : case insensitive match)
+    # TODO: rewrite the return stmt of get_testable_videos_from_mal
     return animelist
 
 
