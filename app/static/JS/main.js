@@ -5,11 +5,16 @@ TIME_BEFORE_NEXT = 10
 // Global variables
 var user_animelist;
 var animelist_availability;
+var testable_animes_full;
+var testable_videos_full;
 var testable_animes;
 var testable_videos;
 
-Array.prototype.randomElement = function () {
-    return this[Math.floor(Math.random() * this.length)]
+// Configuration variables
+var allow_video_looping = false; // TODO: User-defined configuration
+
+Array.prototype.randomIndex = function () {
+    return Math.floor(Math.random() * this.length)
 }
 
 function mimeToExt(mime) {
@@ -133,12 +138,31 @@ function load_user_data(username){
 	    let user_data = JSON.parse(r.response)
         user_animelist = user_data["user_animelist"]
         animelist_availability = user_data["animelist_availability"]
-        testable_animes = user_data["testable_animes"]
-        testable_videos = user_data["testable_videos"]
+        testable_animes_full = testable_animes = user_data["testable_animes"]
+        testable_videos_full = testable_videos = user_data["testable_videos"]
+        // Clone arrays
+        // testable_animes = testable_animes_full.slice()
+        // testable_videos = JSON.parse(JSON.stringify(testable_videos_full))
 	}
 }
 
-function choose_video_to_blindtest(){
-	let selected_anime = testable_animes.randomElement()
-	return testable_videos[selected_anime].randomElement()
+function choose_video_to_blindtest() {
+	let selected_anime_index = testable_animes.randomIndex()
+	let selected_anime = testable_animes[selected_anime_index]
+	let selected_video_index = testable_videos[selected_anime].randomIndex()
+	let selected_video = testable_videos_full[selected_anime][selected_video_index]
+	if (allow_video_looping == false) {
+		remove_video_from_array(selected_anime, selected_anime_index, selected_video_index)
+	}
+	return selected_video
+}
+
+function remove_video_from_array(selected_anime, selected_anime_index, selected_video_index) {
+	// Delete video from list
+	testable_videos[selected_anime].splice(selected_video_index, 1);
+	// If no video left, delete anime
+	if (testable_videos[selected_anime].length == 0) {
+		delete testable_videos[selected_anime]
+		testable_animes.splice(selected_anime_index, 1)
+	}
 }
