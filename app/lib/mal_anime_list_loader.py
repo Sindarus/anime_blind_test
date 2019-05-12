@@ -3,6 +3,8 @@ import json
 
 import requests
 
+from app.lib.helpers import anime_name_equal
+
 TESTABLE_MAL_MEDIA_TYPES = ["TV", "OVA", "ONA"]
 
 
@@ -36,3 +38,33 @@ class MALAnimeListLoader(object):
     @staticmethod
     def is_valid_anime(mal_anime_obj):
         return mal_anime_obj.get("anime_media_type_string") in TESTABLE_MAL_MEDIA_TYPES
+
+    @staticmethod
+    def get_animelist_availability(animelist, opmoe_video_list):
+        """Returns a dict like {
+            "mal_anime_name": "opmoe_anime_name", # if anime is available on opmoe
+            "mal_anime_name": None                # if anime is not available
+        }"""
+        with open("app/data/opmoe_to_MAL_map.json") as f:
+            opmoe_to_mal_map = json.load(f)
+
+        animelist_availability = {}
+        for anime in animelist:
+            normalized_name = MALAnimeListLoader._normalize_name(anime, opmoe_to_mal_map)
+            if normalized_name in opmoe_video_list:
+                animelist_availability[anime] = normalized_name
+            else:
+                animelist_availability[anime] = None
+        return animelist_availability
+
+    @staticmethod
+    def _normalize_name(anime_name, opmoe_to_mal_map):
+        """From a MAL anime name, try to find the matching opmoe name."""
+        matching_mal_animes = list(filter(
+            lambda mapping_elt: anime_name_equal(mapping_elt["mal_name"], anime_name),
+            opmoe_to_mal_map
+        ))
+        if len(matching_mal_animes) > 0:
+            return matching_mal_animes[0]["opmoe_name"]
+        else:
+            return anime_name

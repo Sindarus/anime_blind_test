@@ -4,6 +4,7 @@ TIME_BEFORE_NEXT = 10
 
 // Global variables
 var user_animelist;
+var animelist_availability;
 var testable_animes;
 var testable_videos;
 
@@ -54,9 +55,8 @@ window.onload = function() {
 		username_form_elt.style.display = "none";
 
 		let info = "Your anime list: " + user_animelist + "\n\n";
-		info += "Available animes for testing : " + testable_animes + "\n\n";
-		info += "That's " + testable_animes.length + " out of " + user_animelist.length + "\n\n";
-		info += "Unavailable animes:" + user_animelist.filter(elt => !testable_animes.includes(elt));
+		info += "Animelist availability " + JSON.stringify(animelist_availability, null, 2) + "\n\n";
+		info += "That's " + testable_animes.length + " out of " + user_animelist.length;
 		confirmation_form_animelist.innerText = info
 		confirmation_form.style.display = "block";
 
@@ -132,6 +132,7 @@ function load_user_data(username){
 	else {
 	    let user_data = JSON.parse(r.response)
         user_animelist = user_data["user_animelist"]
+        animelist_availability = user_data["animelist_availability"]
         testable_animes = user_data["testable_animes"]
         testable_videos = user_data["testable_videos"]
 	}

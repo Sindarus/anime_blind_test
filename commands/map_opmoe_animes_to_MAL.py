@@ -8,6 +8,8 @@ from shutil import copy2
 
 import requests
 
+from app.lib.helpers import anime_name_equal
+
 
 def mapping_done_for_anime(all_mappings, opmoe_name):
     res = list(filter(
@@ -18,10 +20,6 @@ def mapping_done_for_anime(all_mappings, opmoe_name):
         log("WARNING: There is more than one mapping for {anime}. Map is corrupt.".format(anime=opmoe_name))
         return True
     return len(res) == 1
-
-
-def anime_name_equal(name_1, name_2):
-    return name_1.lower() == name_2.lower()
 
 
 def get_mapping_for_anime(opmoe_name):

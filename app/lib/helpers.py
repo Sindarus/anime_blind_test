@@ -13,13 +13,6 @@ opmoe_video_list_cache = {
 }
 
 
-def normalize_animelist(animelist):
-    """Normalize according to opmoe's naming system"""
-    # TODO: implement (1st : case insensitive match)
-    # TODO: rewrite the return stmt of get_testable_videos_from_mal
-    return animelist
-
-
 def get_opmoe_video_list():
     if USE_FILE_CACHED_OPMOE_VIDEO_LIST:
         app.logger.info("Using file cached opmoe video list")
@@ -62,3 +55,7 @@ def index_unindexed_video_list(unindexed_video_list):
         else:
             indexed_video_list[video["source"]] = [video]
     return indexed_video_list
+
+
+def anime_name_equal(name_1, name_2):
+    return name_1.lower() == name_2.lower()
