@@ -23,7 +23,7 @@ def normalize_animelist(animelist):
 def get_opmoe_video_list():
     if USE_FILE_CACHED_OPMOE_VIDEO_LIST:
         app.logger.info("Using file cached opmoe video list")
-        with open('app/cache/cached_opmoe_video_list.json') as f:
+        with open('app/data/cached_opmoe_video_list.json') as f:
             return json.loads(f.read())
     if not is_opmoe_cache_still_valid():
         app.logger.info("Updating opmoe list cache.")
