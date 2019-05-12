@@ -1,7 +1,6 @@
 videos/*
 notes.txt
-__pycache__/*
 venv/*
 .idea/*
-*/__pycache__/*
+**/__pycache__/**
 analyse.txt
