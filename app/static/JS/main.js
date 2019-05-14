@@ -140,9 +140,6 @@ function load_user_data(username){
         animelist_availability = user_data["animelist_availability"]
         testable_animes_full = testable_animes = user_data["testable_animes"]
         testable_videos_full = testable_videos = user_data["testable_videos"]
-        // Clone arrays
-        // testable_animes = testable_animes_full.slice()
-        // testable_videos = JSON.parse(JSON.stringify(testable_videos_full))
 	}
 }
 
@@ -164,5 +161,11 @@ function remove_video_from_array(selected_anime, selected_anime_index, selected_
 	if (testable_videos[selected_anime].length == 0) {
 		delete testable_videos[selected_anime]
 		testable_animes.splice(selected_anime_index, 1)
+		// Reset arrays if empty
+		// TODO : Add warning of looping for user
+		if (testable_animes.length == 0) {
+			testable_animes = testable_animes_full
+			testable_videos = testable_videos_full
+		}
 	}
 }
