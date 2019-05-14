@@ -17,3 +17,12 @@ pip install -r requirements-src.txt
 ```bash
 ./start_server.sh
 ```
+
+# Docker support
+```bash
+# Build image
+docker build -t anime-blind-test .
+
+# Run server
+docker run -d --rm -p 5000:5000 anime-blind-test 
+```
