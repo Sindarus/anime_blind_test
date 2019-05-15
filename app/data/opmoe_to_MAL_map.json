@@ -2599,9 +2599,9 @@
   },
   {
     "opmoe_name": "Monogatari Puc Puc",
-    "mal_name": "Bakemonogatari",
-    "mal_id": 5081,
-    "_map_origin": "first_search_result_on_mal"
+    "mal_name": null,
+    "mal_id": null,
+    "_map_origin": "hand_added"
   },
   {
     "opmoe_name": "Bakemonogatari",
@@ -2647,9 +2647,9 @@
   },
   {
     "opmoe_name": "Owarimonogatari Part 2",
-    "mal_name": "Owarimonogatari",
+    "mal_name": "Owarimonogatari 2nd Season",
     "mal_id": 31181,
-    "_map_origin": "first_search_result_on_mal"
+    "_map_origin": "hand_added"
   },
   {
     "opmoe_name": "Monster Musume no Iru Nichijou",
