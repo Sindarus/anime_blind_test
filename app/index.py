@@ -1,11 +1,18 @@
 # coding: utf8
 
 from flask import Flask, render_template, request, jsonify
+from flask_assets import Environment
+from webassets import Bundle
 
 from app.lib.helpers import get_opmoe_video_list
 from app.lib.mal_anime_list_loader import MALAnimeListLoader
 
 app = Flask(__name__)
+
+assets = Environment(app)
+assets.url = app.static_url_path
+scss_bundle = Bundle('SCSS/index.scss', filters='pyscss', output='CSS/index.css')
+assets.register('scss_all', scss_bundle)
 
 
 @app.route('/')
