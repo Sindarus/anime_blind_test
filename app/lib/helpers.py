@@ -58,4 +58,7 @@ def index_unindexed_video_list(unindexed_video_list):
 
 
 def anime_name_equal(name_1, name_2):
+    if name_1 is None or name_2 is None:
+        # return True if both are None
+        return name_1 == name_2
     return name_1.lower() == name_2.lower()

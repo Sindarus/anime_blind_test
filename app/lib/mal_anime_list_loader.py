@@ -60,11 +60,27 @@ class MALAnimeListLoader(object):
     @staticmethod
     def _normalize_name(anime_name, opmoe_to_mal_map):
         """From a MAL anime name, try to find the matching opmoe name."""
-        matching_mal_animes = list(filter(
+        matching_mal_animes = filter(
             lambda mapping_elt: anime_name_equal(mapping_elt["mal_name"], anime_name),
             opmoe_to_mal_map
-        ))
-        if len(matching_mal_animes) > 0:
-            return matching_mal_animes[0]["opmoe_name"]
+        )
+        sorted_matching_mal_animes = sorted(
+            matching_mal_animes,
+            key=MALAnimeListLoader._get_mapping_confidance_value
+        )
+
+        if len(sorted_matching_mal_animes) > 0:
+            return sorted_matching_mal_animes[0]["opmoe_name"]
         else:
             return anime_name
+
+    @staticmethod
+    def _get_mapping_confidance_value(mapping):
+        if mapping["_map_origin"] == "hand_added":
+            return 0
+        elif mapping["_map_origin"] == "exact_match":
+            return 1
+        elif mapping["_map_origin"] == "first_search_result_on_mal":
+            return 2
+        else:
+            return 3
