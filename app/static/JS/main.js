@@ -3,25 +3,11 @@ TIME_BEFORE_REVEAL = 20
 TIME_BEFORE_NEXT = 10
 
 // Global variables
-var user_animelist;
-var animelist_availability;
-var testable_animes_full;
-var testable_videos_full;
-var testable_animes;
-var testable_videos;
+var seen_videos = {};
+var players = []
 
 // Configuration variables
 var allow_video_looping = false; // TODO: User-defined configuration
-
-Array.prototype.randomIndex = function () {
-    return Math.floor(Math.random() * this.length)
-}
-
-function mimeToExt(mime) {
-		if (mime.startsWith("video/mp4")) return ".mp4";
-		if (mime.startsWith("video/webm")) return ".webm";
-		return "";
-}
 
 window.onload = function() {
 	main_window_container_elt = document.querySelector('#main_window_container');
@@ -45,11 +31,12 @@ window.onload = function() {
 	title_elt = document.querySelector("#title")
 
 	username_form_button_elt.onclick = function() {
-	    // TODO: validate user input
+		// TODO: validate user input
 		let username = username_form_input_elt.value;
+		let cur_player = new Player(username);
 
 		username_form_loading_msg_elt.style.display = "block";
-		load_user_data_success = load_user_data(username)
+		load_user_data_success = cur_player.load_user_data();
 		username_form_loading_msg_elt.style.display = "none";
 
 		if(load_user_data_success == -1){
@@ -57,14 +44,16 @@ window.onload = function() {
 			return;
 		}
 
+		players.push(cur_player)
+
 		//hide username_form
 		username_form_elt.style.display = "none";
 
-		let info = "Animelist availability " + JSON.stringify(animelist_availability, null, 2) + "\n\n";
-		info += "That's " + testable_animes.length + " out of " + user_animelist.length;
+		let info = "Animelist availability " + JSON.stringify(cur_player.animelist_availability, null, 2) + "\n\n";
+		info += "That's " + cur_player.testable_animes.length + " out of " + cur_player.animelist.length;
 		testable_animes_elt.innerText = info
 
-		console.log("Animes available for testing: ", testable_animes.length + " out of " + user_animelist.length)
+		console.log("Animes available for testing: ", cur_player.testable_animes.length + " out of " + cur_player.animelist.length)
 	}
 
 	blind_test_button_elt.onclick = function() {
@@ -117,54 +106,45 @@ function blindtest_new_video() {
 	video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext))
 	video_elt.load()
 	video_elt.autoplay = true
-
-	choose_video_to_blindtest
-}
-
-function load_user_data(username){
-    console.log("Retrieving user anime data")
-    let query_url = "/api/v1/get-testable-videos/from-MAL"
-	let r = new XMLHttpRequest();
-	r.open("POST", query_url, false);  // async: false
-	r.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-	r.send(`MAL_username=${username}`); // backticks are required for string interpolation to work
-
-	if (r.status != 200) {
-		console.log("Could not load your animelist : got status ", r.status, " with content : ", r.response)
-		return -1
-	}
-	else {
-	    let user_data = JSON.parse(r.response)
-        user_animelist = user_data["user_animelist"]
-        animelist_availability = user_data["animelist_availability"]
-        testable_animes_full = testable_animes = user_data["testable_animes"]
-        testable_videos_full = testable_videos = user_data["testable_videos"]
-	}
 }
 
 function choose_video_to_blindtest() {
-	let selected_anime_index = testable_animes.randomIndex()
-	let selected_anime = testable_animes[selected_anime_index]
-	let selected_video_index = testable_videos[selected_anime].randomIndex()
-	let selected_video = testable_videos_full[selected_anime][selected_video_index]
+	let testable_anime_pool = compute_testable_anime_pool()
+
+	let selected_anime = Object.keys(testable_anime_pool).randomElt()
+	let selected_video = testable_anime_pool[selected_anime].randomElt()
+
 	if (allow_video_looping == false) {
-		remove_video_from_array(selected_anime, selected_anime_index, selected_video_index)
+		add_seen_video(selected_anime, selected_video)
 	}
+
 	return selected_video
 }
 
-function remove_video_from_array(selected_anime, selected_anime_index, selected_video_index) {
-	// Delete video from list
-	testable_videos[selected_anime].splice(selected_video_index, 1);
-	// If no video left, delete anime
-	if (testable_videos[selected_anime].length == 0) {
-		delete testable_videos[selected_anime]
-		testable_animes.splice(selected_anime_index, 1)
-		// Reset arrays if empty
-		// TODO : Add warning of looping for user
-		if (testable_animes.length == 0) {
-			testable_animes = testable_animes_full
-			testable_videos = testable_videos_full
-		}
+function compute_testable_anime_pool(){
+	let pool = JSON.parse(JSON.stringify(players[0].testable_videos))
+	//TODO: add more options and multiplayer support
+	if (allow_video_looping == false) {
+		Object.keys(seen_videos).forEach(function(anime, anime_i){
+			seen_videos[anime].forEach(function(seen_video, video_i){
+				console.log("anime : ", anime)
+				pool[anime] = pool[anime].filter(function(video){
+					video["file"] != seen_video["file"]
+				})
+			})
+			if(pool[anime].length == 0){
+				delete pool[anime];
+			}
+		})
+	}
+	return pool
+}
+
+function add_seen_video(anime, video){
+	if(seen_videos[anime] instanceof Array){
+		seen_videos[anime].push(video)
+	}
+	else{
+		seen_videos[anime] = [video]
 	}
 }

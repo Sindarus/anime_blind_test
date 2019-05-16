@@ -4,13 +4,12 @@
 		<meta charset="utf-8">
 
 		<title>Anime Blind Test</title>
-
-		<!-- <link rel="stylesheet" type="text/css" href=""> -->
-		<script src="{{url_for('static', filename='JS/main.js') }}"></script>
-
 		{% assets "scss_all" %}
 			<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
 		{% endassets %}
+    {% assets "js_all" %}
+      <script src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 	</head>
 	<body>
 		<div id="main_window_container">
@@ -19,10 +18,10 @@
 					<div class="section" id="players">
 						<h4>Players</h4>
 						<div id="username_form">
-							<form>
+							<div>
 								<input type="text" id="mal_nickname" name="mal_nickname">
-								<button type="submit" class="button">Load my anime list !</button>
-							</form>
+								<button class="button">Load my anime list !</button>
+							</div>
 							<p class="loading_msg" style="display: None">Loading...</p>
 						</div>
 						<div id="playerlist">
