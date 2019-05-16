@@ -11,10 +11,19 @@ app = Flask(__name__)
 
 assets = Environment(app)
 assets.url = app.static_url_path
-scss_bundle = Bundle('SCSS/index.scss', filters='pyscss', output='CSS/index.css')
+
+scss_bundle = Bundle(
+    '../SCSS/index.scss',
+    filters='pyscss', output='CSS/index.css'
+)
 assets.register('scss_all', scss_bundle)
 
-js_bundle = Bundle('JS/main.js', 'JS/helpers.js', 'JS/Player.js', output='JS/all.js')
+js_bundle = Bundle(
+    '../JS/main.js',
+    '../JS/helpers.js',
+    '../JS/Player.js',
+    output='JS/all.js'
+)
 assets.register('js_all', js_bundle)
 
 
