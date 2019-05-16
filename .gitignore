@@ -6,5 +6,5 @@ venv/*
 analyse.txt
 backup/*
 app/static/.webassets-cache/
-app/static/CSS
-
+app/static/CSS/
+app/static/JS/
