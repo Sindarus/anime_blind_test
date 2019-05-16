@@ -1,47 +1,101 @@
+$c_1: #233d4d;
+$c_2: #8ed081;
+$c_3: #fe7f2d;
+$c_4: #fcca46;
+$c_5: #619b8a;
+
+$background-color: $c_4;
+$window_background_color: $c_4;
+$separator-color: $c_5;
+
+
+* {
+    box-sizing: border-box;
+}
+
 html{
     margin: 0;
-    height: 100vh;
     width: 100vw;
+
+    color: $c_5;
 }
 
 body {
     margin: 0;
-    background-color: #DDD;
-    height: 100%;
+}
+
+#main_window_container{
+    min-height: 100vh;
+    padding: 40px;
+
+    background-color: $background-color;
 
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
 }
 
-.modal_window{
+#main_window{
     background-color: white;
 
-    box-sizing: border-box;
-    padding: 3%;
+    width: 85%;
+    //min-height: 90vh;
+    border-radius: 10px;
 
-    width: 60%;
-    height: 80%;
-    border-radius: 20px;
+    box-shadow: 0px 0px 20px 5px rgba(0, 0, 0, .4);
 
-    box-shadow: 0px 0px 10px 2px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: row;
 
-    .modal_window_content{
-        box-sizing: border-box;
+    padding: 2%;
+
+    #left_half, #right_half{
+        display: inline;
+        width: 50%;
         height: 100%;
-        width: 100%;
 
-        overflow: scroll;
-        scrollbar-width: none;
+        .section {
+            padding: 0px 40px 0px 40px;
+
+            h4 {
+                padding: 4px 0 4px 10px;
+                border-bottom: 2px solid $c_4;
+            }
+        }
+
+        &#right_half {
+            display: flex;
+            flex-direction: column;
+
+            #blind_test_button {
+                margin: 20px;
+            }
+        }
+    }
+
+    #vertical_separator{
+        width: 0px;
+        height: 100%;
+        border: 2px solid $c_5;
+    }
+
+    .button {
+        padding: 8px;
+        border: none;
+        border-radius: 6px;
+        background-color: $c_5;
+        color: white;
+
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, .2);
     }
 }
 
 #video_wrapper {
     background-color: #111;
-    height: 100%;
-    width: 100%;
     color: white;
+
+    height: 100vh;
+    width: 100vw;
     overflow: hidden;
 
     #video {

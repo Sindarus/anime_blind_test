@@ -13,18 +13,36 @@
 		{% endassets %}
 	</head>
 	<body>
-		<div id="nickname_form" class="modal_window">
-			<div class="modal_window_content">
-				<input type="text" id="mal_nickname" name="mal_nickname">
-				<button>Load my anime list !</button>
-				<p class="loading_msg" style="display: None">Loading...</p>
-			</div>
-		</div>
-
-		<div id="confirmation_form" class="modal_window" style="display: None">
-			<div class="modal_window_content">
-				<p id="user_animelist"></p>
-				<button>Blind test me !</button>
+		<div id="main_window_container">
+			<div id="main_window">
+				<div id="left_half">
+					<div class="section" id="players">
+						<h4>Players</h4>
+						<div id="username_form">
+							<form>
+								<input type="text" id="mal_nickname" name="mal_nickname">
+								<input type="submit" class="button" value="Load my anime list !" formaction="#"></input>
+							</form>
+							<p class="loading_msg" style="display: None">Loading...</p>
+						</div>
+						<div id="playerlist">
+						</div>
+					</div>
+					<div class="section" id="options">
+						<h4>Options</h4>
+						<p>WIP</p>
+					</div>
+				</div>
+				<div id="vertical_separator"></div>
+				<div id="right_half">
+					<div class="section" id="testable_animes_section">
+						<h4>List of testable animes</h4>
+						<div id="animelist"></div>
+					</div>
+					<div class="button" id="blind_test_button">
+						Blind test me !
+					</div>
+				</div>
 			</div>
 		</div>
 

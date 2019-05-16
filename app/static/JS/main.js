@@ -24,14 +24,15 @@ function mimeToExt(mime) {
 }
 
 window.onload = function() {
-	username_form_elt = document.querySelector('#nickname_form');
-	username_form_button_elt = document.querySelector('#nickname_form button');
-	username_form_input_elt = document.querySelector('#nickname_form input');
-	username_form_loading_msg_elt = document.querySelector('#nickname_form .loading_msg');
+	main_window_container_elt = document.querySelector('#main_window_container');
 
-	confirmation_form = document.querySelector("#confirmation_form");
-	confirmation_form_animelist = document.querySelector('#confirmation_form #user_animelist');
-	confirmation_form_button = document.querySelector("#confirmation_form button");
+	username_form_elt = document.querySelector('#username_form');
+	username_form_button_elt = document.querySelector('#players .button');
+	username_form_input_elt = document.querySelector('#players input');
+	username_form_loading_msg_elt = document.querySelector('#username_form .loading_msg');
+
+	testable_animes_elt = document.querySelector('#testable_animes_section #animelist');
+	blind_test_button_elt = document.querySelector("#blind_test_button");
 
 	video_wrapper_elt = document.querySelector("#video_wrapper");
 	video_elt = document.querySelector("#video")
@@ -59,17 +60,15 @@ window.onload = function() {
 		//hide username_form
 		username_form_elt.style.display = "none";
 
-		let info = "Your anime list: " + user_animelist + "\n\n";
-		info += "Animelist availability " + JSON.stringify(animelist_availability, null, 2) + "\n\n";
+		let info = "Animelist availability " + JSON.stringify(animelist_availability, null, 2) + "\n\n";
 		info += "That's " + testable_animes.length + " out of " + user_animelist.length;
-		confirmation_form_animelist.innerText = info
-		confirmation_form.style.display = "block";
+		testable_animes_elt.innerText = info
 
 		console.log("Animes available for testing: ", testable_animes.length + " out of " + user_animelist.length)
 	}
 
-	confirmation_form_button.onclick = function() {
-		confirmation_form.style.display = "none";
+	blind_test_button_elt.onclick = function() {
+		main_window_container_elt.style.display = "none";
 		video_wrapper_elt.style.display = "block";
 
 		blindtest_new_video()
