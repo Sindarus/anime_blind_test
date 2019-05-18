@@ -31,6 +31,18 @@ function Player(username) {
 }
 
 Vue.component('player-component', {
-  props: ['player'],
-  template: '<span class="player_card">{{ player.username[0] }}</span>'
+	props: ['player'],
+	template: '<span class="player_card">{{ player.username[0] }}</span>'
+})
+
+Vue.component('player-list-component', {
+	props: ['players'],
+	template: `
+		<div>
+			<player-component v-for="cur_player in players"
+							  v-bind:player="cur_player"
+							  v-bind:key="cur_player.username">
+			</player-component>
+		</div>
+	`
 })

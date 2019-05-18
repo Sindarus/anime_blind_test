@@ -18,12 +18,7 @@
 					<div class="section" id="players">
 						<h4>Players</h4>
 						<div id="username_form">
-							<div>
-								<player-component v-for="cur_player in players"
-												  v-bind:player="cur_player"
-												  v-bind:key="cur_player.username">
-								</player-component>
-							</div>
+							<player-list-component v-bind:players="players"></player-list-component>
 							<div>
 								<input type="text" id="mal_nickname" name="mal_nickname">
 								<button class="button">Load my anime list !</button>

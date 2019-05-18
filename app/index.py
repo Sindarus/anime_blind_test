@@ -21,9 +21,9 @@ assets.register('scss_all', scss_bundle)
 
 js_bundle = Bundle(
     '../JS/vue.js',
-    '../JS/main.js',
     '../JS/helpers.js',
     '../JS/Player.js',
+    '../JS/main.js',
     output='JS/all.js'
 )
 assets.register('js_all', js_bundle)
