@@ -14,11 +14,13 @@ assets.url = app.static_url_path
 
 scss_bundle = Bundle(
     '../SCSS/index.scss',
+    '../SCSS/player.scss',
     filters='pyscss', output='CSS/index.css'
 )
 assets.register('scss_all', scss_bundle)
 
 js_bundle = Bundle(
+    '../JS/vue.js',
     '../JS/main.js',
     '../JS/helpers.js',
     '../JS/Player.js',

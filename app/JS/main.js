@@ -9,6 +9,13 @@ var players = []
 // Configuration variables
 var allow_video_looping = false; // TODO: User-defined configuration
 
+var app = new Vue({
+	el: '#main_window_container',
+	data: {
+		players: players
+	}
+})
+
 window.onload = function() {
 	main_window_container_elt = document.querySelector('#main_window_container');
 
@@ -45,9 +52,6 @@ window.onload = function() {
 		}
 
 		players.push(cur_player)
-
-		//hide username_form
-		username_form_elt.style.display = "none";
 
 		let info = "Animelist availability " + JSON.stringify(cur_player.animelist_availability, null, 2) + "\n\n";
 		info += "That's " + cur_player.testable_animes.length + " out of " + cur_player.animelist.length;

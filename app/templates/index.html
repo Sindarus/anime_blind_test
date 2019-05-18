@@ -7,9 +7,9 @@
 		{% assets "scss_all" %}
 			<link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
 		{% endassets %}
-    {% assets "js_all" %}
-      <script src="{{ ASSET_URL }}"></script>
-    {% endassets %}
+		{% assets "js_all" %}
+		  <script defer src="{{ ASSET_URL }}"></script>
+		{% endassets %}
 	</head>
 	<body>
 		<div id="main_window_container">
@@ -18,6 +18,12 @@
 					<div class="section" id="players">
 						<h4>Players</h4>
 						<div id="username_form">
+							<div>
+								<player-component v-for="cur_player in players"
+												  v-bind:player="cur_player"
+												  v-bind:key="cur_player.username">
+								</player-component>
+							</div>
 							<div>
 								<input type="text" id="mal_nickname" name="mal_nickname">
 								<button class="button">Load my anime list !</button>

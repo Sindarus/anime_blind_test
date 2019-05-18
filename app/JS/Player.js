@@ -29,3 +29,8 @@ function Player(username) {
 		}
 	}
 }
+
+Vue.component('player-component', {
+  props: ['player'],
+  template: '<span class="player_card">{{ player.username[0] }}</span>'
+})
