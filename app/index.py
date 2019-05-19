@@ -15,14 +15,18 @@ assets.url = app.static_url_path
 scss_bundle = Bundle(
     '../SCSS/index.scss',
     '../SCSS/player.scss',
+    '../SCSS/testable_animes_list.scss',
     filters='pyscss', output='CSS/index.css'
 )
 assets.register('scss_all', scss_bundle)
 
 js_bundle = Bundle(
-    '../JS/vue.js',
     '../JS/helpers.js',
+    '../JS/vue.js',
+    '../JS/testable_animes_list.js',
     '../JS/Player.js',
+    '../JS/game_engine.js',
+    '../JS/indexed_video_list.js',
     '../JS/main.js',
     output='JS/all.js'
 )

@@ -1,10 +1,34 @@
+//Mocking options (comment/uncomment to disable/enable)
+// MOCKED_API_RESPONSE = {
+// 	user_animelist: ["Macross Delta"],
+// 	animelist_availability: {
+// 		"Macross Delta": "Macross Delta"
+// 	},
+// 	testable_animes: ["Macross Delta"],
+// 	testable_videos: {
+// 		"Macross Delta": [
+// 	        {
+// 	            "title": "Opening 1",
+// 	            "source": "Macross Delta",
+// 	            "file": "lolilol",
+// 	            "mime": [
+// 	                "video/mp4",
+// 	                "video/webm;codecs=\"vp9,opus\""
+// 	            ],
+// 	            "song": {
+// 	                "title": "Giri giri ai",
+// 	            }
+// 	        }
+// 	    ]
+// 	}
+// }
+
 // Interface options
 TIME_BEFORE_REVEAL = 20
 TIME_BEFORE_NEXT = 10
 
 // Global variables
-var seen_videos = {};
-var players = []
+var game_engine = new GameEngine()
 
 // Configuration variables
 var allow_video_looping = false; // TODO: User-defined configuration
@@ -12,7 +36,7 @@ var allow_video_looping = false; // TODO: User-defined configuration
 var app = new Vue({
 	el: '#main_window_container',
 	data: {
-		players: players
+		game_engine: game_engine
 	}
 })
 
@@ -51,13 +75,13 @@ window.onload = function() {
 			return;
 		}
 
-		players.push(cur_player)
+		game_engine.players.push(cur_player)
 
-		let info = "Animelist availability " + JSON.stringify(cur_player.animelist_availability, null, 2) + "\n\n";
-		info += "That's " + cur_player.testable_animes.length + " out of " + cur_player.animelist.length;
-		testable_animes_elt.innerText = info
+		// let info = "Animelist availability " + JSON.stringify(cur_player.animelist_availability, null, 2) + "\n\n";
+		// info += "That's " + cur_player.testable_animes.length + " out of " + cur_player.animelist.length;
+		// testable_animes_elt.innerText = info
 
-		console.log("Animes available for testing: ", cur_player.testable_animes.length + " out of " + cur_player.animelist.length)
+		// console.log("Animes available for testing: ", cur_player.testable_animes.length + " out of " + cur_player.animelist.length)
 	}
 
 	blind_test_button_elt.onclick = function() {
@@ -113,42 +137,14 @@ function blindtest_new_video() {
 }
 
 function choose_video_to_blindtest() {
-	let testable_anime_pool = compute_testable_anime_pool()
+	let testable_anime_pool = game_engine.compute_testable_anime_pool()
 
 	let selected_anime = Object.keys(testable_anime_pool).randomElt()
 	let selected_video = testable_anime_pool[selected_anime].randomElt()
 
 	if (allow_video_looping == false) {
-		add_seen_video(selected_anime, selected_video)
+		game_engine.add_seen_video(selected_anime, selected_video)
 	}
 
 	return selected_video
-}
-
-function compute_testable_anime_pool(){
-	let pool = JSON.parse(JSON.stringify(players[0].testable_videos))
-	//TODO: add more options and multiplayer support
-	if (allow_video_looping == false) {
-		Object.keys(seen_videos).forEach(function(anime, anime_i){
-			seen_videos[anime].forEach(function(seen_video, video_i){
-				console.log("anime : ", anime)
-				pool[anime] = pool[anime].filter(function(video){
-					video["file"] != seen_video["file"]
-				})
-			})
-			if(pool[anime].length == 0){
-				delete pool[anime];
-			}
-		})
-	}
-	return pool
-}
-
-function add_seen_video(anime, video){
-	if(seen_videos[anime] instanceof Array){
-		seen_videos[anime].push(video)
-	}
-	else{
-		seen_videos[anime] = [video]
-	}
 }

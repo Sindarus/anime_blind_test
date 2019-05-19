@@ -1,3 +1,7 @@
+deep_copy = function(obj) {
+	return JSON.parse(JSON.stringify(obj))
+}
+
 Array.prototype.randomIndex = function () {
 	return Math.floor(Math.random() * this.length)
 }

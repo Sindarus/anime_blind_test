@@ -18,7 +18,7 @@
 					<div class="section" id="players">
 						<h4>Players</h4>
 						<div id="username_form">
-							<player-list-component v-bind:players="players"></player-list-component>
+							<player-list-component v-bind:players="game_engine.players"></player-list-component>
 							<div>
 								<input type="text" id="mal_nickname" name="mal_nickname">
 								<button class="button">Load my anime list !</button>
@@ -37,7 +37,7 @@
 				<div id="right_half">
 					<div class="section" id="testable_animes_section">
 						<h4>List of testable animes</h4>
-						<div id="animelist"></div>
+						<testable-animes-list-component v-bind:m_game_engine="game_engine"></testable-animes-list-component>
 					</div>
 					<div id="button_container">
 						<div class="button" id="blind_test_button">
