@@ -9,7 +9,7 @@ function Player(username) {
 	this.load_user_data = function() {
 		console.log("Retrieving user anime data for user", this.username)
 
-		if (typeof MOCKED_API_RESPONSE !== 'undefined'){
+		if (MOCK_MODE){
 			var r = {
 				status: 200,
 				response: JSON.stringify(MOCKED_API_RESPONSE)

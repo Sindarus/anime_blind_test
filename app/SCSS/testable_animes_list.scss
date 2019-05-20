@@ -1,7 +1,10 @@
 #testable_animes_list {
 	width: 100%;
 
-	tr td:first-child {
-		width: 20%;
+	.testable_anime_row .player_list {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-end;
+		align-items: center;
 	}
 }

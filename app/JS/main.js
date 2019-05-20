@@ -1,27 +1,43 @@
 //Mocking options (comment/uncomment to disable/enable)
-// MOCKED_API_RESPONSE = {
-// 	user_animelist: ["Macross Delta"],
-// 	animelist_availability: {
-// 		"Macross Delta": "Macross Delta"
-// 	},
-// 	testable_animes: ["Macross Delta"],
-// 	testable_videos: {
-// 		"Macross Delta": [
-// 	        {
-// 	            "title": "Opening 1",
-// 	            "source": "Macross Delta",
-// 	            "file": "lolilol",
-// 	            "mime": [
-// 	                "video/mp4",
-// 	                "video/webm;codecs=\"vp9,opus\""
-// 	            ],
-// 	            "song": {
-// 	                "title": "Giri giri ai",
-// 	            }
-// 	        }
-// 	    ]
-// 	}
-// }
+MOCK_MODE = false;
+MOCKED_API_RESPONSE = {
+	user_animelist: ["Macross Delta", "Un anime dont le nom est vraiment très long"],
+	animelist_availability: {
+		"Macross Delta": "Macross Delta",
+		"Macross Delta 2": "Un anime dont le nom est vraiment très long"
+	},
+	testable_animes: ["Macross Delta", "Un anime dont le nom est vraiment très long"],
+	testable_videos: {
+		"Macross Delta": [
+			{
+				"title": "Opening 1",
+				"source": "Macross Delta",
+				"file": "lolilol",
+				"mime": [
+					"video/mp4",
+					"video/webm;codecs=\"vp9,opus\""
+				],
+				"song": {
+					"title": "Giri giri ai",
+				}
+			}
+		],
+		"Un anime dont le nom est vraiment très long": [
+			{
+				"title": "Opening 1",
+				"source": "Macross Delta",
+				"file": "lolilol",
+				"mime": [
+					"video/mp4",
+					"video/webm;codecs=\"vp9,opus\""
+				],
+				"song": {
+					"title": "Giri giri ai",
+				}
+			}
+		],
+	}
+};
 
 // Interface options
 TIME_BEFORE_REVEAL = 20
