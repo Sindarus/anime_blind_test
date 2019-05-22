@@ -19,11 +19,7 @@
 						<h4>Players</h4>
 						<div id="username_form">
 							<player-list-component v-bind:players="game_engine.players"></player-list-component>
-							<div>
-								<input type="text" id="mal_nickname" name="mal_nickname">
-								<button class="button">Load my anime list !</button>
-							</div>
-							<p class="loading_msg" style="display: None">Loading...</p>
+							<player-adder-component v-on:add_player="game_engine.players.push($event)"></player-adder-component>
 						</div>
 						<div id="playerlist">
 						</div>

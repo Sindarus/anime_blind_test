@@ -59,11 +59,6 @@ var app = new Vue({
 window.onload = function() {
 	main_window_container_elt = document.querySelector('#main_window_container');
 
-	username_form_elt = document.querySelector('#username_form');
-	username_form_button_elt = document.querySelector('#players .button');
-	username_form_input_elt = document.querySelector('#players input');
-	username_form_loading_msg_elt = document.querySelector('#username_form .loading_msg');
-
 	testable_animes_elt = document.querySelector('#testable_animes_section #animelist');
 	blind_test_button_elt = document.querySelector("#blind_test_button");
 
@@ -76,29 +71,6 @@ window.onload = function() {
 
 	title_container_elt = document.querySelector("#title_container")
 	title_elt = document.querySelector("#title")
-
-	username_form_button_elt.onclick = function() {
-		// TODO: validate user input
-		let username = username_form_input_elt.value;
-		let cur_player = new Player(username);
-
-		username_form_loading_msg_elt.style.display = "block";
-		load_user_data_success = cur_player.load_user_data();
-		username_form_loading_msg_elt.style.display = "none";
-
-		if(load_user_data_success == -1){
-			alert("Your animelist could not be retrieved. Please check your username and retry.");
-			return;
-		}
-
-		game_engine.players.push(cur_player)
-
-		// let info = "Animelist availability " + JSON.stringify(cur_player.animelist_availability, null, 2) + "\n\n";
-		// info += "That's " + cur_player.testable_animes.length + " out of " + cur_player.animelist.length;
-		// testable_animes_elt.innerText = info
-
-		// console.log("Animes available for testing: ", cur_player.testable_animes.length + " out of " + cur_player.animelist.length)
-	}
 
 	blind_test_button_elt.onclick = function() {
 		main_window_container_elt.style.display = "none";

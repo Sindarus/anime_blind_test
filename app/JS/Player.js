@@ -24,7 +24,7 @@ function Player(username) {
 		}
 
 		if (r.status != 200) {
-			console.log("Could not load your animelist : got status ", r.status, " with content : ", r.response)
+			console.log("user animelist could not be loaded : got status ", r.status, " with content : ", r.response)
 			return -1
 		}
 		else {
