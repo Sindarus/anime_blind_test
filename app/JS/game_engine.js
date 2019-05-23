@@ -6,6 +6,10 @@ class GameEngine {
 		this.options = {}
 	}
 
+	add_player(player) {
+		this.players.push(player)
+	}
+
 	compute_testable_anime_pool() {
 		let pool = IndexedVideoList.merge_all(this.players.map(player => player.testable_videos))
 		//TODO: add more options and multiplayer support

@@ -22,11 +22,11 @@ Vue.component('player-adder-component', {
 			let player = new Player(this.username);
 
 			this.loading_user_animelist = true
-			res = player.load_user_data() // TODO: promisify this call
+			res = player.load_user_data() // TODO: promisify this call to make the Loading message appear.
 			this.loading_user_animelist = false
 
 			if (res != -1){
-				this.$emit('add_player', player)
+				this.m_game_engine.add_player(player)
 			}
 			else {
 				alert("Your animelist could not be retrieved. Please check your username and retry.");
