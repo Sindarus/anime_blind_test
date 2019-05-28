@@ -53,22 +53,3 @@ function Player(username) {
 		return this.testable_animes.find(cur_anime => cur_anime == anime) !== undefined
 	}
 }
-
-Vue.component('player-component', {
-	props: ['player', 'small'],
-	template: `<span class="player_card" :class="this.small ? 'small' : ''">{{ player.username[0] }}</span>`,
-	methods: {
-	}
-})
-
-Vue.component('player-list-component', {
-	props: ['players'],
-	template: `
-		<div>
-			<player-component v-for="cur_player in players"
-							  v-bind:player="cur_player"
-							  v-bind:key="cur_player.username">
-			</player-component>
-		</div>
-	`
-})
