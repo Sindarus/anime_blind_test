@@ -3,4 +3,4 @@ Vue.component('player-component', {
 	template: `<span class="player_card" :class="this.small ? 'small' : ''">{{ player.username[0] }}</span>`,
 	methods: {
 	}
-})
+});

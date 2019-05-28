@@ -8,4 +8,4 @@ Vue.component('player-list-component', {
 			</player-component>
 		</div>
 	`
-})
+});

@@ -1,14 +1,14 @@
 deep_copy = function(obj) {
-	return JSON.parse(JSON.stringify(obj))
-}
+	return JSON.parse(JSON.stringify(obj));
+};
 
 Array.prototype.randomIndex = function () {
-	return Math.floor(Math.random() * this.length)
-}
+	return Math.floor(Math.random() * this.length);
+};
 
 Array.prototype.randomElt = function () {
-	return this[this.randomIndex()]
-}
+	return this[this.randomIndex()];
+};
 
 
 function mimeToExt(mime) {

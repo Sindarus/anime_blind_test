@@ -1,13 +1,13 @@
 function Player(username) {
-	this.username = username
+	this.username = username;
 
-	this.animelist = undefined
-	this.animelist_availability = undefined
-	this.testable_animes = undefined
-	this.testable_videos = undefined
+	this.animelist = undefined;
+	this.animelist_availability = undefined;
+	this.testable_animes = undefined;
+	this.testable_videos = undefined;
 
 	this.load_user_data = async function() {
-		console.log("Retrieving user anime data for user", this.username)
+		console.log("Retrieving user anime data for user", this.username);
 
 		if (MOCK_MODE){
 			var r = {
@@ -22,16 +22,16 @@ function Player(username) {
 				method: 'POST',
 				body: `MAL_username=${this.username}`,
 				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-			})
+			});
 			r.content = await r.text();
 
-			return this._handle_api_response(r)
+			return this._handle_api_response(r);
 		}
-	}
+	};
 
 	this._handle_api_response = async function(r) {
 		if (!r.ok) {
-			console.log("user animelist could not be loaded : got status ", r.status, " with content : ", r.content)
+			console.log("user animelist could not be loaded : got status ", r.status, " with content : ", r.content);
 			throw "Could not load user data";
 		}
 
@@ -43,13 +43,13 @@ function Player(username) {
 			throw e;
 		}
 
-		this.animelist = user_data["user_animelist"]
-		this.animelist_availability = user_data["animelist_availability"]
-		this.testable_animes = user_data["testable_animes"]
-		this.testable_videos = new IndexedVideoList(user_data["testable_videos"])
-	}
+		this.animelist = user_data["user_animelist"];
+		this.animelist_availability = user_data["animelist_availability"];
+		this.testable_animes = user_data["testable_animes"];
+		this.testable_videos = new IndexedVideoList(user_data["testable_videos"]);
+	};
 
 	this.has_seen = function(anime) {
-		return this.testable_animes.find(cur_anime => cur_anime == anime) !== undefined
-	}
+		return this.testable_animes.find(cur_anime => cur_anime == anime) !== undefined;
+	};
 }

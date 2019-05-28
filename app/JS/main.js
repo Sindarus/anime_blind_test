@@ -40,11 +40,11 @@ MOCKED_API_RESPONSE = {
 };
 
 // Interface options
-TIME_BEFORE_REVEAL = 20
-TIME_BEFORE_NEXT = 10
+TIME_BEFORE_REVEAL = 20;
+TIME_BEFORE_NEXT = 10;
 
 // Global variables
-var game_engine = new GameEngine()
+var game_engine = new GameEngine();
 
 // Configuration variables
 var allow_video_looping = false; // TODO: User-defined configuration
@@ -54,7 +54,7 @@ var app = new Vue({
 	data: {
 		game_engine: game_engine
 	}
-})
+});
 
 window.onload = function() {
 	main_window_container_elt = document.querySelector('#main_window_container');
@@ -63,20 +63,20 @@ window.onload = function() {
 	blind_test_button_elt = document.querySelector("#blind_test_button");
 
 	video_wrapper_elt = document.querySelector("#video_wrapper");
-	video_elt = document.querySelector("#video")
+	video_elt = document.querySelector("#video");
 	video_source_elt = document.querySelector("#video source");
-	spinner_container_elt = document.querySelector("#spinner_container")
-	spinner_elt = document.querySelector("#spinner")
-	timer_elt = document.querySelector("#timer")
+	spinner_container_elt = document.querySelector("#spinner_container");
+	spinner_elt = document.querySelector("#spinner");
+	timer_elt = document.querySelector("#timer");
 
-	title_container_elt = document.querySelector("#title_container")
-	title_elt = document.querySelector("#title")
+	title_container_elt = document.querySelector("#title_container");
+	title_elt = document.querySelector("#title");
 
 	blind_test_button_elt.onclick = function() {
 		main_window_container_elt.style.display = "none";
 		video_wrapper_elt.style.display = "block";
 
-		blindtest_new_video()
+		blindtest_new_video();
 	};
 
 	video.ontimeupdate = function(e) {
@@ -84,55 +84,55 @@ window.onload = function() {
 			// We should get new video
 			video.style.opacity = 0;
 			title_container_elt.style.opacity = 0;
-			blindtest_new_video()
+			blindtest_new_video();
 		}
 		else if (video.currentTime > TIME_BEFORE_REVEAL) {
 			// Video should be revealed
 			video.style.opacity = 1;
 			title_container_elt.style.opacity = 1;
 			spinner_elt.style.opacity = 0;
-			timer_elt.innerText = Math.ceil(TIME_BEFORE_NEXT - (video.currentTime - TIME_BEFORE_REVEAL))
+			timer_elt.innerText = Math.ceil(TIME_BEFORE_NEXT - (video.currentTime - TIME_BEFORE_REVEAL));
 		}
 		else {
 			// Video should play blacked out
 			video.style.opacity = 0;
 			title_container_elt.style.opacity = 0;
 			spinner_elt.style.opacity = 1;
-			timer_elt.innerText = Math.ceil(TIME_BEFORE_REVEAL - video.currentTime)
+			timer_elt.innerText = Math.ceil(TIME_BEFORE_REVEAL - video.currentTime);
 		}
 	};
-}
+};
 
 function blindtest_new_video() {
-	current_video = choose_video_to_blindtest()
-	console.log("blindtested video: ", current_video)
+	current_video = choose_video_to_blindtest();
+	console.log("blindtested video: ", current_video);
 
-	title_elt.innerText = "Anime: " + current_video["source"] + "\n"
+	title_elt.innerText = "Anime: " + current_video["source"] + "\n";
 	if (typeof current_video["song"] !== 'undefined'){
 		if (typeof current_video["song"]["title"] !== 'undefined'){
-			title_elt.innerText += "Song: " + current_video["song"]["title"] + "\n"
+			title_elt.innerText += "Song: " + current_video["song"]["title"] + "\n";
 		}
 		if (typeof current_video["song"]["artist"] !== 'undefined'){
-			title_elt.innerText += "Artist: " + current_video["song"]["artist"]
+			title_elt.innerText += "Artist: " + current_video["song"]["artist"];
 		}
 	}
 	
-	filename = current_video["file"]
-	ext = mimeToExt(current_video["mime"][0])	// select first mime
-	video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext))
-	video_elt.load()
-	video_elt.autoplay = true
+	filename = current_video["file"];
+	ext = mimeToExt(current_video["mime"][0]);	// select first mime
+	video_source_elt.setAttribute("src", "https://openings.moe/video/" + encodeURIComponent(filename + ext));
+	video_elt.load();
+	video_elt.autoplay = true;
 }
 
 function choose_video_to_blindtest() {
-	let testable_anime_pool = game_engine.compute_testable_anime_pool()
+	let testable_anime_pool = game_engine.compute_testable_anime_pool();
 
-	let selected_anime = Object.keys(testable_anime_pool).randomElt()
-	let selected_video = testable_anime_pool[selected_anime].randomElt()
+	let selected_anime = Object.keys(testable_anime_pool).randomElt();
+	let selected_video = testable_anime_pool[selected_anime].randomElt();
 
 	if (allow_video_looping == false) {
-		game_engine.add_seen_video(selected_anime, selected_video)
+		game_engine.add_seen_video(selected_anime, selected_video);
 	}
 
-	return selected_video
+	return selected_video;
 }
