@@ -20,14 +20,13 @@ Vue.component('testable-animes-list-component', {
 	`,
 	methods: {
 		get_all_players_animes: function() {
-			// TODO : make "compute_testable_anime_poo" return a ixed video list and use .animes()
-			let mm_game_engine = this.m_game_engine;
+			let m_game_engine = this.m_game_engine;
 
-			all_animes = Object.keys(mm_game_engine.compute_testable_anime_pool())
+			all_animes = Object.keys(m_game_engine.compute_testable_anime_pool())
 			players_anime_list = all_animes.map(function(anime){
 				return {
 					anime_name: anime,
-					players: mm_game_engine.players.filter(player => player.has_seen(anime)).reverse()
+					players: m_game_engine.players.filter(player => player.has_seen(anime)).reverse()
 				}
 			})
 			return players_anime_list.sort(function(players_anime_1, players_anime_2){
