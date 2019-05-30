@@ -1,10 +1,19 @@
-#testable_animes_list {
+table#testable_animes_list {
 	width: 100%;
 
-	.testable_anime_row .player_list {
-		display: flex;
-		flex-direction: row;
-		justify-content: flex-end;
-		align-items: center;
+	.testable_anime_row {
+		.player_list {
+			display: flex;
+			flex-direction: row;
+			justify-content: flex-end;
+			align-items: center;
+		}
+
+		td.anime_name_td {
+			//this is a trick to make this column take as much space as possible
+			width: 100%;
+		}
 	}
+
+
 }

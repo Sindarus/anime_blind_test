@@ -15,6 +15,7 @@ assets.url = app.static_url_path
 scss_bundle = Bundle(
     '../SCSS/index.scss',
     '../SCSS/player.scss',
+    '../SCSS/options_component.scss',
     '../SCSS/testable_animes_list.scss',
     filters='pyscss', output='CSS/index.css'
 )
@@ -30,6 +31,7 @@ js_bundle = Bundle(
     '../JS/player_component.js',
     '../JS/player_list_component.js',
     '../JS/player_adder_component.js',
+    '../JS/options_component.js',
     '../JS/main.js',
     output='JS/all.js'
 )

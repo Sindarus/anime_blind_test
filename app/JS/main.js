@@ -46,9 +46,6 @@ TIME_BEFORE_NEXT = 10;
 // Global variables
 var game_engine = new GameEngine();
 
-// Configuration variables
-var allow_video_looping = false; // TODO: User-defined configuration
-
 var app = new Vue({
 	el: '#main_window_container',
 	data: {
@@ -125,14 +122,16 @@ function blindtest_new_video() {
 }
 
 function choose_video_to_blindtest() {
-	let testable_anime_pool = game_engine.compute_testable_anime_pool();
+	let testable_anime_pool = game_engine.compute_testable_videos_pool();
+	if(Object.keys(testable_anime_pool).length == 0){
+		alert("no anime to blindtest");
+		return -1;
+	}
 
 	let selected_anime = Object.keys(testable_anime_pool).randomElt();
 	let selected_video = testable_anime_pool[selected_anime].randomElt();
 
-	if (allow_video_looping == false) {
-		game_engine.add_seen_video(selected_anime, selected_video);
-	}
+	game_engine.add_seen_video(selected_anime, selected_video);
 
 	return selected_video;
 }
