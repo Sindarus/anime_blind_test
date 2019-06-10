@@ -74,22 +74,41 @@ Vue.component('blind-tester-component', {
             else {
                 return Promise.resolve();
             }
+        },
+        cur_vid_has_song() {
+            return this.current_video.song !== undefined;
+        },
+        cur_vid_has_song_title() {
+            if(this.cur_vid_has_song()) return this.current_video.song.title !== undefined;
+            else return undefined;
+        },
+        cur_vid_has_song_artist() {
+            if(this.cur_vid_has_song()) return this.current_video.song.artist !== undefined;
+            else return undefined;
+        },
+        get_cur_vid_song_title() {
+            if(this.cur_vid_has_song_title()) return this.current_video.song.artist;
+            else return undefined
+        },
+        get_cur_vid_song_artist() {
+            if(this.cur_vid_has_song_artist()) return this.current_video.song.artist;
+            else return undefined
         }
     },
     template: `
         <div class="blind_tester_component" v-show="m_game_engine.is_playing">
-            <video controls id="video" v-show="is_revealed">
+            <video controls id="video" v-bind:style="{opacity: is_revealed ? 100 : 0}">
                 <source>
             </video>
             <div id="spinner_container">
                 <p id="timer">{{ count_down_value }}</p>
                 <img id="spinner" src="/static/images/spinner_ds.png">
             </div>
-            <div id="title_container" v-if="is_revealed">
+            <div id="title_container" v-show="is_revealed">
                 <div id="anime_title">Anime: {{ current_video["source"] }}</div>
-                <div v-if="current_video.song !== 'undefined'">
-                    <div v-if="current_video.song.title !== 'undefined'">Song: {{ current_video["song"]["title"] }}</div>
-                    <div v-if="current_video.song.artist !== 'undefined'">Artist: {{ current_video["song"]["artist"] }}</div>
+                <div v-show="cur_vid_has_song()">
+                    <div v-if="cur_vid_has_song_title()">Song: {{ get_cur_vid_song_title() }}</div>
+                    <div v-if="cur_vid_has_song_artist()">Artist: {{ get_cur_vid_song_artist() }}</div>
                 </div>
             </div>
         </div>
