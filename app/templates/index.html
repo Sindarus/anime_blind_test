@@ -14,49 +14,42 @@
 		<script defer src="https://use.fontawesome.com/releases/v5.8.2/js/all.js" integrity="sha384-DJ25uNYET2XCl5ZF++U8eNxPWqcKohUUBUpKGlNLMchM7q4Wjg2CUpjHLaL8yYPH" crossorigin="anonymous"></script>
 	</head>
 	<body>
-		<div id="main_window_container">
-			<div id="main_window">
-				<div id="left_half">
-					<div class="section" id="players">
-						<h4>Players</h4>
-						<div id="username_form">
-							<player-list-component v-bind:players="game_engine.players"></player-list-component>
-							<player-adder-component v-bind:m_game_engine="game_engine"></player-adder-component>
+		<div id="app_container">
+			<div id="main_window_container" v-show="!game_engine.is_playing">
+				<div id="main_window">
+					<div id="left_half">
+						<div class="section" id="players">
+							<h4>Players</h4>
+							<div id="username_form">
+								<player-list-component v-bind:players="game_engine.players"></player-list-component>
+								<player-adder-component v-bind:m_game_engine="game_engine"></player-adder-component>
+							</div>
+							<div id="playerlist">
+							</div>
 						</div>
-						<div id="playerlist">
+						<div class="section" id="options">
+							<h4>Options</h4>
+							<options-component v-bind:options="game_engine.options"></options-component>
 						</div>
 					</div>
-					<div class="section" id="options">
-						<h4>Options</h4>
-						<options-component v-bind:options="game_engine.options"></options-component>
+					<div id="vertical_separator"></div>
+					<div id="right_half">
+						<div class="section" id="testable_animes_section">
+							<h4>List of testable animes</h4>
+							<testable-animes-list-component v-bind:m_game_engine="game_engine"></testable-animes-list-component>
+						</div>
+						<div id="button_container">
+							<div class="button" id="blind_test_button" v-on:click="trigger_blind_tester_component()">
+								Blind test me !
+							</div>
+						</div>
 					</div>
 				</div>
-				<div id="vertical_separator"></div>
-				<div id="right_half">
-					<div class="section" id="testable_animes_section">
-						<h4>List of testable animes</h4>
-						<testable-animes-list-component v-bind:m_game_engine="game_engine"></testable-animes-list-component>
-					</div>
-					<div id="button_container">
-						<div class="button" id="blind_test_button">
-							Blind test me !
-						</div>
-					</div>
-				</div>
 			</div>
-		</div>
-
-		<div id="video_wrapper" style="display: None">
-			<video controls id="video" style="opacity: 0;">
-				<source>
-			</video>
-			<div id="spinner_container">
-				<p id="timer"></p>
-				<img id="spinner" src="{{url_for('static', filename='images/spinner_ds.png') }}">
-			</div>
-			<div id="title_container" style="opacity: 0;">
-				<p id="title"></p>
-			</div>
+			<blind-tester-component ref="blindTesterComp"
+									v-on:stop-playing="game_engine.is_playing=false"
+									v-bind:m_game_engine="game_engine">
+			</blind-tester-component>
 		</div>
 	</body>
 </html>

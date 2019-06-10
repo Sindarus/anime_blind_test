@@ -27,6 +27,7 @@ js_bundle = Bundle(
     '../JS/indexed_video_list.js',
     '../JS/player.js',
     '../JS/game_engine.js',
+    '../JS/blind_tester_component.js',
     '../JS/testable_animes_list_component.js',
     '../JS/player_component.js',
     '../JS/player_list_component.js',

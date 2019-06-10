@@ -7,6 +7,9 @@ class GameEngine {
 			joint_animes: true,
 			prevent_looping: true
 		};
+
+		this.is_playing = false;
+		this.current_video = undefined;
 	}
 
 	add_player(player) {
