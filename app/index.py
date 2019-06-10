@@ -17,6 +17,7 @@ scss_bundle = Bundle(
     '../SCSS/player.scss',
     '../SCSS/options_component.scss',
     '../SCSS/testable_animes_list.scss',
+    '../SCSS/blind_tester_component.scss',
     filters='pyscss', output='CSS/index.css'
 )
 assets.register('scss_all', scss_bundle)

@@ -3,23 +3,42 @@ Vue.component('blind-tester-component', {
     data: function() {
         return {
             is_revealed: false,
-            current_video: ""
+            current_video: "",
+            count_down_value: 0,
+            video_elt: undefined
         };
     },
+    mounted() {
+        this.video_elt = this.$el.querySelector("video");
+    },
     methods: {
-        start_blindtest: function() {
+        start_blindtest() {
             try {
-                this.current_video = this.choose_video_to_blindtest();
-                this.load_current_video();
+                this.blindtest_loop()
             }
             catch (e) {
                 alert(e);
                 console.log("emitting 'stop-playing'");
                 this.$emit("stop-playing");
+                this.video_elt.pause()
             }
             console.log("blindtested video: ", this.current_video);
         },
-        choose_video_to_blindtest: function() {
+        blindtest_loop(){
+            const _this = this;
+            this.current_video = this.choose_video_to_blindtest();
+            this.load_current_video();
+            this.count_down(5)
+                .then(function() {
+                    _this.is_revealed = true;
+                })
+                .then(() => _this.count_down(5))
+                .then(function() {
+                    _this.is_revealed = false;
+                    _this.blindtest_loop();
+                });
+        },
+        choose_video_to_blindtest() {
             const testable_video_pool = this.m_game_engine.compute_testable_videos_pool();
             if(Object.keys(testable_video_pool).length === 0){
                 throw "no anime to blindtest"
@@ -33,24 +52,37 @@ Vue.component('blind-tester-component', {
             return selected_video;
         },
         load_current_video() {
-            let video_elt = this.$el.querySelector("video");
-            video_elt.setAttribute("src", this.get_current_video_source());
-            video_elt.load();
-            video_elt.autoplay = true;
+            this.video_elt.setAttribute("src", this.get_current_video_source());
+            this.video_elt.load();
+            this.video_elt.autoplay = true;
         },
-        get_current_video_source(){
+        get_current_video_source() {
             const filename = this.current_video["file"];
             const ext = mimeToExt(this.current_video["mime"][0]);	// select first mime
             return "https://openings.moe/video/" + encodeURIComponent(filename + ext)
+        },
+        count_down(time_sec) {
+            const _this = this;
+            _this.count_down_value = time_sec;
+            if(time_sec !== 0) {
+                return new Promise(function (resolve, reject) {
+                    window.setTimeout(function(){
+                        _this.count_down(time_sec-1).then(resolve)
+                    }, 1000);
+                })
+            }
+            else {
+                return Promise.resolve();
+            }
         }
     },
     template: `
-        <div id="video_wrapper" v-show="m_game_engine.is_playing">
-            <video controls id="video" style="opacity: 0;">
+        <div class="blind_tester_component" v-show="m_game_engine.is_playing">
+            <video controls id="video" v-show="is_revealed">
                 <source>
             </video>
             <div id="spinner_container">
-                <p id="timer"></p>
+                <p id="timer">{{ count_down_value }}</p>
                 <img id="spinner" src="/static/images/spinner_ds.png">
             </div>
             <div id="title_container" v-if="is_revealed">

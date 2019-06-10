@@ -32,7 +32,7 @@ TIME_BEFORE_NEXT = 10;
 let app = new Vue({
 	el: '#app_container',
 	data: {
-		game_engine: (function() {a = new GameEngine(); console.log(a); return a})()
+		game_engine: (function() {a = new GameEngine(); console.log("game_engine:", a); return a})()
 	},
 	methods: {
 		trigger_blind_tester_component: function() {
