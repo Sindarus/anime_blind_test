@@ -10,6 +10,7 @@ Vue.component('blind-tester-component', {
     },
     mounted() {
         this.video_elt = this.$el.querySelector("video");
+        this.timer = new Timer(x => this.count_down_value = x);
     },
     methods: {
         start_blindtest() {
@@ -17,26 +18,23 @@ Vue.component('blind-tester-component', {
                 this.blindtest_loop()
             }
             catch (e) {
-                alert(e);
                 console.log("emitting 'stop-playing'");
                 this.$emit("stop-playing");
-                this.video_elt.pause()
+                this.video_elt.pause();
+                alert(e);
             }
             console.log("blindtested video: ", this.current_video);
         },
         blindtest_loop(){
-            const _this = this;
             this.current_video = this.choose_video_to_blindtest();
             this.load_current_video();
-            this.count_down(5)
-                .then(function() {
-                    _this.is_revealed = true;
-                })
-                .then(() => _this.count_down(5))
-                .then(function() {
-                    _this.is_revealed = false;
-                    _this.blindtest_loop();
-                });
+            this.timer.start(5)
+            .then(() => this.is_revealed = true)
+            .then(() => this.timer.start(5))
+            .then(() => {
+                this.is_revealed = false;
+                this.blindtest_loop();
+            });
         },
         choose_video_to_blindtest() {
             const testable_video_pool = this.m_game_engine.compute_testable_videos_pool();
@@ -61,20 +59,6 @@ Vue.component('blind-tester-component', {
             const ext = mimeToExt(this.current_video["mime"][0]);	// select first mime
             return "https://openings.moe/video/" + encodeURIComponent(filename + ext)
         },
-        count_down(time_sec) {
-            const _this = this;
-            _this.count_down_value = time_sec;
-            if(time_sec !== 0) {
-                return new Promise(function (resolve, reject) {
-                    window.setTimeout(function(){
-                        _this.count_down(time_sec-1).then(resolve)
-                    }, 1000);
-                })
-            }
-            else {
-                return Promise.resolve();
-            }
-        },
         cur_vid_has_song() {
             return this.current_video.song !== undefined;
         },
@@ -97,12 +81,15 @@ Vue.component('blind-tester-component', {
     },
     template: `
         <div class="blind_tester_component" v-show="m_game_engine.is_playing">
-            <video controls id="video" v-bind:style="{opacity: is_revealed ? 100 : 0}">
+            <video controls id="video"
+                   v-bind:style="{opacity: is_revealed ? 100 : 0}"
+                   v-on:pause="timer.pause()"
+                   v-on:play="timer.resume()">
                 <source>
             </video>
             <div id="spinner_container">
                 <p id="timer">{{ count_down_value }}</p>
-                <img id="spinner" src="/static/images/spinner_ds.png">
+                <img alt="waiting spinner" id="spinner" src="/static/images/spinner_ds.png">
             </div>
             <div id="title_container" v-show="is_revealed">
                 <div id="anime_title">Anime: {{ current_video["source"] }}</div>

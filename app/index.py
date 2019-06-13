@@ -25,6 +25,7 @@ assets.register('scss_all', scss_bundle)
 js_bundle = Bundle(
     '../JS/helpers.js',
     '../JS/vue.js',
+    '../JS/timer.js',
     '../JS/indexed_video_list.js',
     '../JS/player.js',
     '../JS/game_engine.js',
