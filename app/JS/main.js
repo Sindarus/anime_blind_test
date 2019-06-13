@@ -1,5 +1,5 @@
 //Mocking options (comment/uncomment to disable/enable)
-MOCK_MODE = true;
+MOCK_MODE = false;
 MOCKED_API_RESPONSE = {
 	user_animelist: ["Kakumeiki Valvrave"],
 	animelist_availability: {
