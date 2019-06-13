@@ -36,18 +36,16 @@ class IndexedVideoList {
 	}
 
 	subset(anime_list){
-		var _this = this;
-		var out = {};
-		anime_list.forEach(function(anime, anime_i) {
-			out[anime] = deep_copy(_this[anime]);
-		})
+		let out = {};
+		anime_list.forEach((anime, anime_i) => {
+			out[anime] = deep_copy(this[anime]);
+		});
 		return new IndexedVideoList(out);
 	}
 
 	length(){
-		let _this = this;
-		return Object.keys(_this).reduce(function(accumulator, cur_anime){
-			return accumulator + _this[cur_anime].length
+		return Object.keys(this).reduce((accumulator, cur_anime) => {
+			return accumulator + this[cur_anime].length
 		}, 0);
 	}
 
@@ -60,14 +58,14 @@ class IndexedVideoList {
 	}
 
 	static _video_is_in_video_list(video, video_list){
-		return video_list.find(elt => elt["file"] == video["file"]) !== undefined;
+		return video_list.find(elt => elt["file"] === video["file"]) !== undefined;
 	}
 
 	static merge_all(indexed_video_lists){
-		if (indexed_video_lists.length == 0){
+		if (indexed_video_lists.length === 0){
 			return new IndexedVideoList({});
 		}
-		else if (indexed_video_lists.length == 1){
+		else if (indexed_video_lists.length === 1){
 			return new IndexedVideoList(indexed_video_lists[0]);
 		}
 		else {

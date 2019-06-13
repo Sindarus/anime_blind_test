@@ -22,16 +22,15 @@ Vue.component('player-adder-component', {
 			let player = new Player(this.username);
 
 			this.loading_user_animelist = true;
-			_this = this;
 			player.load_user_data()
 			.then(e => {
 				this.m_game_engine.add_player(player);
-				_this.loading_user_animelist = false;
+				this.loading_user_animelist = false;
 			})
 			.catch(e => {
 				alert("Your animelist could not be retrieved. Please check your username and retry.");
 				console.log("Animelist could not be retrieved. Error: ", e);
-				_this.loading_user_animelist = false;
+				this.loading_user_animelist = false;
 			});
 		}
 	}

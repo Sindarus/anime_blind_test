@@ -7,14 +7,13 @@ Array.prototype.intersect = function(array2) {
 };
 
 Array.prototype.unite = function(array2){
-	_this = this;
-	return _this.concat(array2.filter(function (item) {
-	    return _this.indexOf(item) < 0;
+	return this.concat(array2.filter(item => {
+	    return this.indexOf(item) < 0;
 	}));
 };
 
 function intersection(array_of_arrays){
-	if(array_of_arrays.length == 0){
+	if(array_of_arrays.length === 0){
 		return [];
 	}
 	const reduce_func = function(accumulator, cur_val){
