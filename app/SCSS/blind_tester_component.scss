@@ -1,0 +1,61 @@
+$UI_margin: 1em;
+
+.blind_tester_component {
+    background-color: #111;
+    color: white;
+
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+
+    #video {
+        /*border: 3px red solid;*/
+        height: 100%;
+        width: 100%;
+        opacity: 0.5;
+    }
+
+    #title_container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background-color: rgba(75, 75, 75, .8);
+
+        p {
+            margin: 20px;
+        }
+    }
+
+    #timer {
+        padding: 2em;
+        margin: 0;
+        font-size: 3em;
+        font-weight: bold;
+
+        $boldness: 0.05em;
+        text-shadow: #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness,
+        #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness,
+        #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness;
+    }
+
+    .UI_block svg {
+        font-size: 2em;
+    }
+
+    .bottom {
+        position: fixed;
+        bottom: $UI_margin;
+    }
+    .top {
+        position: fixed;
+        top: $UI_margin;
+    }
+    .right {
+        position: fixed;
+        right: $UI_margin;
+    }
+    .left {
+        position: fixed;
+        left: $UI_margin;
+    }
+}

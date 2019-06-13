@@ -17,6 +17,7 @@ scss_bundle = Bundle(
     '../SCSS/player.scss',
     '../SCSS/options_component.scss',
     '../SCSS/testable_animes_list.scss',
+    '../SCSS/blind_tester_component.scss',
     filters='pyscss', output='CSS/index.css'
 )
 assets.register('scss_all', scss_bundle)
@@ -24,9 +25,11 @@ assets.register('scss_all', scss_bundle)
 js_bundle = Bundle(
     '../JS/helpers.js',
     '../JS/vue.js',
+    '../JS/timer.js',
     '../JS/indexed_video_list.js',
     '../JS/player.js',
     '../JS/game_engine.js',
+    '../JS/blind_tester_component.js',
     '../JS/testable_animes_list_component.js',
     '../JS/player_component.js',
     '../JS/player_list_component.js',
