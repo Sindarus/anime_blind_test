@@ -26,9 +26,9 @@ Vue.component('blind-tester-component', {
         blindtest_loop(){
             this.current_video = this.choose_video_to_blindtest();
             this.load_current_video();
-            this.timer.start(5)
+            this.timer.start(20)
             .then(() => this.is_revealed = true)
-            .then(() => this.timer.start(5))
+            .then(() => this.timer.start(10))
             .then(() => {
                 this.is_revealed = false;
                 this.blindtest_loop();
