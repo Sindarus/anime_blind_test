@@ -15,12 +15,10 @@ Vue.component('blind-tester-component', {
     methods: {
         start_blindtest() {
             try {
-                this.blindtest_loop()
+                this.blindtest_loop();
             }
             catch (e) {
-                console.log("emitting 'stop-playing'");
-                this.$emit("stop-playing");
-                this.video_elt.pause();
+                this.stop_blindtest();
                 alert(e);
             }
             console.log("blindtested video: ", this.current_video);
@@ -59,6 +57,11 @@ Vue.component('blind-tester-component', {
             const ext = mimeToExt(this.current_video["mime"][0]);	// select first mime
             return "https://openings.moe/video/" + encodeURIComponent(filename + ext)
         },
+        stop_blindtest(){
+            this.$emit("stop-playing");
+            this.timer.clear();
+            this.video_elt.pause();
+        },
         cur_vid_has_song() {
             return this.current_video.song !== undefined;
         },
@@ -87,9 +90,13 @@ Vue.component('blind-tester-component', {
                    v-on:play="timer.resume()">
                 <source>
             </video>
-            <div id="spinner_container">
+            <div class="UI_block top left">
+                <span v-on:click="stop_blindtest()">
+                    <i class="fas fa-2x fa-arrow-left"></i>
+                </span>
+            </div>
+            <div class="UI_block bottom right">
                 <p id="timer">{{ count_down_value }}</p>
-                <img alt="waiting spinner" id="spinner" src="/static/images/spinner_ds.png">
             </div>
             <div id="title_container" v-show="is_revealed">
                 <div id="anime_title">Anime: {{ current_video["source"] }}</div>

@@ -1,3 +1,5 @@
+$UI_margin: 1em;
+
 .blind_tester_component {
     background-color: #111;
     color: white;
@@ -13,18 +15,6 @@
         opacity: 0.5;
     }
 
-    #spinner_container {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-
-        img {
-            height: 100px;
-            width: 100px;
-            animation: spin 4s linear infinite;
-        }
-    }
-
     #title_container {
         position: fixed;
         bottom: 0;
@@ -34,5 +24,38 @@
         p {
             margin: 20px;
         }
+    }
+
+    #timer {
+        padding: 2em;
+        margin: 0;
+        font-size: 3em;
+        font-weight: bold;
+
+        $boldness: 0.05em;
+        text-shadow: #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness,
+        #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness,
+        #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness;
+    }
+
+    .UI_block svg {
+        font-size: 2em;
+    }
+
+    .bottom {
+        position: fixed;
+        bottom: $UI_margin;
+    }
+    .top {
+        position: fixed;
+        top: $UI_margin;
+    }
+    .right {
+        position: fixed;
+        right: $UI_margin;
+    }
+    .left {
+        position: fixed;
+        left: $UI_margin;
     }
 }
