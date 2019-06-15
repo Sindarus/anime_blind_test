@@ -27,12 +27,15 @@ Vue.component('blind-tester-component', {
             this.current_video = this.choose_video_to_blindtest();
             this.load_current_video();
             this.timer.start(MOCK_MODE ? 5 : 20)
-            .then(() => this.is_revealed = true)
-            .then(() => this.timer.start(MOCK_MODE ? 5 : 10))
-            .then(() => {
-                this.is_revealed = false;
-                this.blindtest_loop();
-            });
+                .then(() => this.is_revealed = true)
+                .then(() => this.timer.start(MOCK_MODE ? 5 : 10))
+                .then(() => {
+                    this.is_revealed = false;
+                    this.blindtest_loop();
+                })
+                .catch((e) => {
+                    // Timer has been .clear()'ed. Do nothing.
+                });
         },
         choose_video_to_blindtest() {
             const testable_video_pool = this.m_game_engine.compute_testable_videos_pool();
