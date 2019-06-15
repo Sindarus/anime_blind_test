@@ -26,9 +26,9 @@ Vue.component('blind-tester-component', {
         blindtest_loop(){
             this.current_video = this.choose_video_to_blindtest();
             this.load_current_video();
-            this.timer.start(MOCK_MODE ? 5 : 20)
+            this.timer.start(this.m_game_engine.options.time_till_reveal)
                 .then(() => this.is_revealed = true)
-                .then(() => this.timer.start(MOCK_MODE ? 5 : 10))
+                .then(() => this.timer.start(this.m_game_engine.options.time_till_next_vid))
                 .then(() => {
                     this.is_revealed = false;
                     this.blindtest_loop();
@@ -88,12 +88,16 @@ Vue.component('blind-tester-component', {
         get_cur_vid_song_artist() {
             if(this.cur_vid_has_song_artist()) return this.current_video.song.artist;
             else return undefined
+        },
+        get_video_opacity(){
+            if(this.is_revealed) return '1';
+            else return MOCK_MODE ? '0.2' : '0';
         }
     },
     template: `
         <div class="blind_tester_component" v-show="m_game_engine.is_playing">
             <video controls id="video"
-                   v-bind:style="{opacity: is_revealed ? 100 : 0}"
+                   v-bind:style="{opacity: get_video_opacity()}"
                    v-on:pause="timer.pause()"
                    v-on:play="timer.resume()">
                 <source>

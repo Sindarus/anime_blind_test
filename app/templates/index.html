@@ -29,7 +29,7 @@
 						</div>
 						<div class="section" id="options">
 							<h4>Options</h4>
-							<options-component v-bind:options="game_engine.options"></options-component>
+							<options-component v-on:update:options="game_engine.options = $event"></options-component>
 						</div>
 					</div>
 					<div id="vertical_separator"></div>
