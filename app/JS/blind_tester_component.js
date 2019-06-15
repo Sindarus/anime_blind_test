@@ -30,12 +30,18 @@ Vue.component('blind-tester-component', {
                 .then(() => this.is_revealed = true)
                 .then(() => this.timer.start(this.m_game_engine.options.time_till_next_vid))
                 .then(() => {
-                    this.is_revealed = false;
                     this.blindtest_loop();
                 })
                 .catch((e) => {
                     // Timer has been .clear()'ed. Do nothing.
+                })
+                .finally(() => {
+                    this.is_revealed = false;
                 });
+        },
+        skip_video(){
+            this.timer.clear();
+            this.blindtest_loop();
         },
         choose_video_to_blindtest() {
             const testable_video_pool = this.m_game_engine.compute_testable_videos_pool();
@@ -103,8 +109,11 @@ Vue.component('blind-tester-component', {
                 <source>
             </video>
             <div class="UI_block top left">
-                <span v-on:click="stop_blindtest()">
+                <span class="UI_button" v-on:click="stop_blindtest()">
                     <i class="fas fa-2x fa-arrow-left"></i>
+                </span>
+                <span class="UI_button" v-on:click="skip_video()">
+                    <i class="fas fa-2x fa-running"></i>
                 </span>
             </div>
             <div class="UI_block bottom right">

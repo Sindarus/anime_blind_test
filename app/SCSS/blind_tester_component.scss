@@ -38,6 +38,10 @@ $UI_margin: 1em;
         #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness;
     }
 
+    .UI_button{
+        padding: 10px;
+    }
+
     .UI_block svg {
         font-size: 2em;
     }
