@@ -1,25 +1,34 @@
-//Mocking options (comment/uncomment to disable/enable)
-MOCK_MODE = false;
+//Mocking options
+MOCK_MODE = true;
 MOCKED_API_RESPONSE = {
-	user_animelist: ["Kakumeiki Valvrave"],
+	user_animelist: ["Macross Delta", "Nichijou"],
 	animelist_availability: {
-		"Kakumeiki Valvrave": "Kakumeiki Valvrave",
+		"Macross Delta": "Macross Delta",
+		"Nichijou": "Nichijou"
 	},
-	testable_animes: ["Kakumeiki Valvrave"],
+	testable_animes: ["Macross Delta", "Nichijou"],
 	testable_videos: {
-		"Kakumeiki Valvrave": [
+		"Macross Delta": [
 			{
 				"title": "Opening 1a",
-				"source": "Kakumeiki Valvrave",
-				"file": "KakumeikiValvrave-OP01a-NCBD",
+				"source": "Macross Delta",
+				"file": "girigirilove",
 				"mime": [
-					"video/webm;codecs=\"vp9,opus\"",
-					"video/mp4"
+					"video/mp4",
 				],
 				"song": {
-					"title": "Preserved Roses",
-					"artist": "T.M.Revolution x Nana Mizuki"
+					"title": "Giri Giri Love",
 				}
+			},
+		],
+		"Nichijou": [
+			{
+				"title": "Opening 1a",
+				"source": "Nichijou",
+				"file": "nichijou",
+				"mime": [
+					"video/mp4",
+				],
 			}
 		]
 	}

@@ -26,9 +26,9 @@ Vue.component('blind-tester-component', {
         blindtest_loop(){
             this.current_video = this.choose_video_to_blindtest();
             this.load_current_video();
-            this.timer.start(20)
+            this.timer.start(MOCK_MODE ? 5 : 20)
             .then(() => this.is_revealed = true)
-            .then(() => this.timer.start(10))
+            .then(() => this.timer.start(MOCK_MODE ? 5 : 10))
             .then(() => {
                 this.is_revealed = false;
                 this.blindtest_loop();
@@ -55,7 +55,12 @@ Vue.component('blind-tester-component', {
         get_current_video_source() {
             const filename = this.current_video["file"];
             const ext = mimeToExt(this.current_video["mime"][0]);	// select first mime
-            return "https://openings.moe/video/" + encodeURIComponent(filename + ext)
+            if(MOCK_MODE === true) {
+                return "/static/videos/" + encodeURIComponent(filename + ext)
+            }
+            else {
+                return "https://openings.moe/video/" + encodeURIComponent(filename + ext)
+            }
         },
         stop_blindtest(){
             this.$emit("stop-playing");
