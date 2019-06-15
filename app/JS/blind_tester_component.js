@@ -79,7 +79,7 @@ Vue.component('blind-tester-component', {
             else return undefined;
         },
         get_cur_vid_song_title() {
-            if(this.cur_vid_has_song_title()) return this.current_video.song.artist;
+            if(this.cur_vid_has_song_title()) return this.current_video.song.title;
             else return undefined
         },
         get_cur_vid_song_artist() {
