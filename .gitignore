@@ -1,4 +1,4 @@
-videos/*
+app/static/videos/*
 notes.txt
 venv/*
 .idea/*
