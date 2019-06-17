@@ -1,5 +1,11 @@
 $UI_margin: 1em;
 
+@mixin outlined($boldness) {
+    text-shadow: #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness,
+                 #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness,
+                 #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness;
+}
+
 .blind_tester_component {
     background-color: #111;
     color: white;
@@ -12,17 +18,31 @@ $UI_margin: 1em;
         /*border: 3px red solid;*/
         height: 100%;
         width: 100%;
-        opacity: 0.5;
     }
 
-    #title_container {
+    .video_info_overlay {
         position: fixed;
-        bottom: 0;
-        left: 0;
+        bottom: 15%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         background-color: rgba(75, 75, 75, .8);
 
-        p {
-            margin: 20px;
+        .video_info_container {
+            @include outlined(0.05em);
+            padding-top: 10px;
+            padding-bottom: 10px;
+
+            .anime_title {
+                font-size: 1.5em;
+                font-weight: bold;
+            }
+
+            .song_info_container{
+                font-size: 1em;
+                padding-left: 15px;
+            }
         }
     }
 
@@ -32,10 +52,7 @@ $UI_margin: 1em;
         font-size: 3em;
         font-weight: bold;
 
-        $boldness: 0.05em;
-        text-shadow: #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness,
-        #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness,
-        #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness, #000 0 0 $boldness;
+        @include outlined(0.05em);
     }
 
     .UI_button{

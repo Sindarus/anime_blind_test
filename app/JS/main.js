@@ -17,7 +17,8 @@ MOCKED_API_RESPONSE = {
 					"video/mp4",
 				],
 				"song": {
-					"title": "Giri Giri Love",
+					"title": "Giri Giri Ai",
+					"artist": "Unknown"
 				}
 			},
 		],
@@ -29,6 +30,10 @@ MOCKED_API_RESPONSE = {
 				"mime": [
 					"video/mp4",
 				],
+				"song": {
+					"title": "Giri Giri Ai",
+					"artist": "Unknown"
+				}
 			}
 		]
 	}

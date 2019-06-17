@@ -116,14 +116,16 @@ Vue.component('blind-tester-component', {
                     <i class="fas fa-2x fa-running"></i>
                 </span>
             </div>
-            <div class="UI_block bottom right">
+            <div class="UI_block top right">
                 <p id="timer">{{ count_down_value }}</p>
             </div>
-            <div id="title_container" v-show="is_revealed">
-                <div id="anime_title">Anime: {{ current_video["source"] }}</div>
-                <div v-show="cur_vid_has_song()">
-                    <div v-if="cur_vid_has_song_title()">Song: {{ get_cur_vid_song_title() }}</div>
-                    <div v-if="cur_vid_has_song_artist()">Artist: {{ get_cur_vid_song_artist() }}</div>
+            <div class="video_info_overlay" v-show="is_revealed">
+                <div class="video_info_container">
+                    <div class="anime_title">{{ current_video["source"] }}</div>
+                    <div class="song_info_container" v-show="cur_vid_has_song()">
+                        <div v-if="cur_vid_has_song_title()">Song: {{ get_cur_vid_song_title() }}</div>
+                        <div v-if="cur_vid_has_song_artist()">Artist: {{ get_cur_vid_song_artist() }}</div>
+                    </div>
                 </div>
             </div>
         </div>
