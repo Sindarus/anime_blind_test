@@ -2,8 +2,16 @@
 	table {
 		width: 100%;
 
-		.option_control {
-			text-align: right;
+		tr {
+			height: 30px;
+
+			.option_control {
+				text-align: right;
+
+				input {
+					width: 40px;
+				}
+			}
 		}
 	}
 }
