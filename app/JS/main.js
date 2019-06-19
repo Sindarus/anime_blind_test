@@ -1,5 +1,5 @@
 //Mocking options
-MOCK_MODE = false;
+MOCK_MODE = true;
 MOCKED_API_RESPONSE = {
 	user_animelist: ["Macross Delta", "Nichijou"],
 	animelist_availability: {
@@ -55,29 +55,3 @@ let app = new Vue({
 		}
 	}
 });
-
-window.onload = function() {
-
-	// video.ontimeupdate = function(e) {
-	// 	if(video.ended || (video.currentTime > TIME_BEFORE_REVEAL + TIME_BEFORE_NEXT)) {
-	// 		// We should get new video
-	// 		video.style.opacity = 0;
-	// 		title_container_elt.style.opacity = 0;
-	// 		blindtest_new_video();
-	// 	}
-	// 	else if (video.currentTime > TIME_BEFORE_REVEAL) {
-	// 		// Video should be revealed
-	// 		video.style.opacity = 1;
-	// 		title_container_elt.style.opacity = 1;
-	// 		spinner_elt.style.opacity = 0;
-	// 		timer_elt.innerText = Math.ceil(TIME_BEFORE_NEXT - (video.currentTime - TIME_BEFORE_REVEAL));
-	// 	}
-	// 	else {
-	// 		// Video should play blacked out
-	// 		video.style.opacity = 0;
-	// 		title_container_elt.style.opacity = 0;
-	// 		spinner_elt.style.opacity = 1;
-	// 		timer_elt.innerText = Math.ceil(TIME_BEFORE_REVEAL - video.currentTime);
-	// 	}
-	// };
-};
