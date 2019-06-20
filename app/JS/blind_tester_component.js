@@ -10,7 +10,13 @@ Vue.component('blind-tester-component', {
     },
     mounted() {
         this.video_elt = this.$el.querySelector("video");
+
         this.timer = new Timer(x => this.count_down_value = x);
+        this.video_elt.onerror = e => {
+            this.stop_blindtest();
+            console.log("There was an error on the video while blindtesting, cannot continue. error: ", e);
+            alert("There was an error on the video while blindtesting, cannot continue. error:" + e);
+        };
     },
     methods: {
         start_blindtest() {
@@ -19,7 +25,8 @@ Vue.component('blind-tester-component', {
             }
             catch (e) {
                 this.stop_blindtest();
-                alert(e);
+                console.log("There was an error while blindtesting, cannot continue. error: ", e);
+                alert("There was an error while blindtesting, cannot continue. error:" + e);
             }
             console.log("blindtested video: ", this.current_video);
         },
@@ -106,7 +113,6 @@ Vue.component('blind-tester-component', {
                    v-bind:style="{opacity: get_video_opacity()}"
                    v-on:pause="timer.pause()"
                    v-on:play="timer.resume()">
-                <source>
             </video>
             <div class="UI_block top left">
                 <span class="UI_button" v-on:click="stop_blindtest()">
