@@ -10,13 +10,15 @@ Vue.component('blind-tester-component', {
     },
     mounted() {
         this.video_elt = this.$el.querySelector("video");
-
         this.timer = new Timer(x => this.count_down_value = x);
         this.video_elt.onerror = e => {
             this.stop_blindtest();
             console.log("There was an error on the video while blindtesting, cannot continue. error: ", e);
             alert("There was an error on the video while blindtesting, cannot continue. error:" + e);
         };
+        this.video_elt.oncanplaythrough = e => {
+            this.video_elt.focus();
+        }
     },
     methods: {
         start_blindtest() {
@@ -65,8 +67,8 @@ Vue.component('blind-tester-component', {
         },
         load_current_video() {
             this.video_elt.setAttribute("src", this.get_current_video_source());
-            this.video_elt.load();
             this.video_elt.autoplay = true;
+            this.video_elt.load();
         },
         get_current_video_source() {
             const filename = this.current_video["file"];
