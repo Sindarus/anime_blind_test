@@ -5,7 +5,8 @@ Vue.component('blind-tester-component', {
             is_revealed: false,
             current_video: "",
             count_down_value: 0,
-            video_elt: undefined
+            video_elt: undefined,
+            should_show_info: false
         };
     },
     mounted() {
@@ -18,7 +19,8 @@ Vue.component('blind-tester-component', {
         };
         this.video_elt.oncanplaythrough = e => {
             this.video_elt.focus();
-        }
+        };
+        console.log("options: ", this.m_game_engine.options)
     },
     methods: {
         start_blindtest() {
@@ -33,24 +35,22 @@ Vue.component('blind-tester-component', {
             console.log("blindtested video: ", this.current_video);
         },
         blindtest_loop(){
+            this.reset();
             this.current_video = this.choose_video_to_blindtest();
             this.load_current_video();
             this.timer.start(this.m_game_engine.options.time_till_reveal)
-                .then(() => this.is_revealed = true)
-                .then(() => this.timer.start(this.m_game_engine.options.time_till_next_vid))
                 .then(() => {
-                    this.blindtest_loop();
+                    this.is_revealed = true;
+                    this.show_video_info();
+                    return this.timer.start(this.m_game_engine.options.time_till_next_vid);
                 })
-                .catch((e) => {
+                .then(() => {
+                    if(! this.m_game_engine.options.watch_till_end) {
+                        this.blindtest_loop();
+                    }
+                },(e) => {
                     // Timer has been .clear()'ed. Do nothing.
                 })
-                .finally(() => {
-                    this.is_revealed = false;
-                });
-        },
-        skip_video(){
-            this.timer.clear();
-            this.blindtest_loop();
         },
         choose_video_to_blindtest() {
             const testable_video_pool = this.m_game_engine.compute_testable_videos_pool();
@@ -82,8 +82,27 @@ Vue.component('blind-tester-component', {
         },
         stop_blindtest(){
             this.$emit("stop-playing");
-            this.timer.clear();
+            this.reset();
+        },
+        show_video_info() {
+            this.should_show_info = true;
+            this.hide_info_timeout_id = window.setTimeout(
+                () => {
+                    this.should_show_info = false;
+                    this.hide_info_timeout_id = -1;
+                },
+                4000
+            )
+        },
+        reset(){
             this.video_elt.pause();
+            this.timer.clear();
+            this.is_revealed = false;
+            this.should_show_info = false;
+            if(this.hide_info_timeout_id !== -1){
+                window.clearTimeout(this.hide_info_timeout_id);
+                this.hide_info_timeout_id = -1;
+            }
         },
         cur_vid_has_song() {
             return this.current_video.song !== undefined;
@@ -114,20 +133,21 @@ Vue.component('blind-tester-component', {
             <video controls id="video"
                    v-bind:style="{opacity: get_video_opacity()}"
                    v-on:pause="timer.pause()"
-                   v-on:play="timer.resume()">
+                   v-on:play="timer.resume()"
+                   v-on:ended="blindtest_loop()">
             </video>
             <div class="UI_block top left">
                 <span class="UI_button" v-on:click="stop_blindtest()">
                     <i class="fas fa-2x fa-arrow-left"></i>
                 </span>
-                <span class="UI_button" v-on:click="skip_video()">
+                <span class="UI_button" v-on:click="blindtest_loop()">
                     <i class="fas fa-2x fa-running"></i>
                 </span>
             </div>
             <div class="UI_block top right">
-                <p id="timer">{{ count_down_value }}</p>
+                <p id="timer" v-show="!is_revealed || !m_game_engine.options.watch_till_end">{{ count_down_value }}</p>
             </div>
-            <div class="video_info_overlay" v-show="is_revealed">
+            <div class="video_info_overlay" v-show="is_revealed && should_show_info">
                 <div class="video_info_container">
                     <div class="anime_title">{{ current_video["source"] }}</div>
                     <div class="song_info_container" v-show="cur_vid_has_song()">

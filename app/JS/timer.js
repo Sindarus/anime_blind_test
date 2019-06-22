@@ -28,9 +28,11 @@ class PausableTimout{
     };
 
     clear(){
-        window.clearTimeout(this.timeout_id);
-        this.timeout_id = -1;
-        this.reject_func();
+        if(this.timeout_id !== -1){
+            window.clearTimeout(this.timeout_id);
+            this.timeout_id = -1;
+            this.reject_func();
+        }
     }
 
     resolve_aux(){
