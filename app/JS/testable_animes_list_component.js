@@ -22,6 +22,7 @@ Vue.component('testable-animes-list-component', {
 					</div>
 				</td>
 			</tr>
+			<span v-if="get_all_players_animes().length === 0">No anime to blindtest. Please add some.</span>
 		</table>
 	`,
 	methods: {
