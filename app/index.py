@@ -36,6 +36,7 @@ js_bundle = Bundle(
     '../JS/player_adder_component.js',
     '../JS/options_component.js',
     '../JS/main.js',
+    '../JS/anime_blindtest_component.js',
     output='JS/all.js'
 )
 assets.register('js_all', js_bundle)

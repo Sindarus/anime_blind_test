@@ -14,42 +14,6 @@
 		<script src="/static/JS/font-awesome.js"></script>
 	</head>
 	<body>
-		<div id="app_container">
-			<div id="main_window_container" v-show="!game_engine.is_playing">
-				<div id="main_window">
-					<div id="left_half">
-						<div class="section" id="players">
-							<h4>Players</h4>
-							<div id="username_form">
-								<player-list-component v-bind:players="game_engine.players"></player-list-component>
-								<player-adder-component v-bind:m_game_engine="game_engine"></player-adder-component>
-							</div>
-							<div id="playerlist">
-							</div>
-						</div>
-						<div class="section" id="options">
-							<h4>Options</h4>
-							<options-component v-on:update:options="game_engine.options = $event"></options-component>
-						</div>
-					</div>
-					<div id="vertical_separator"></div>
-					<div id="right_half">
-						<div class="section" id="testable_animes_section">
-							<h4>List of testable animes</h4>
-							<testable-animes-list-component v-bind:m_game_engine="game_engine"></testable-animes-list-component>
-						</div>
-						<div id="button_container" v-bind:style="get_css_disabled_style(!blindtest_is_ready())">
-							<div class="button" id="blind_test_button" v-on:click="trigger_blind_tester_component()">
-								Blind test me !
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<blind-tester-component ref="blindTesterComp"
-									v-on:stop-playing="game_engine.is_playing=false"
-									v-bind:m_game_engine="game_engine">
-			</blind-tester-component>
-		</div>
+		<div id="app_container"></div>
 	</body>
 </html>

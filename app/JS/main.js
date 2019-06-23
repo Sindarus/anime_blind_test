@@ -38,20 +38,3 @@ MOCKED_API_RESPONSE = {
 		]
 	}
 };
-
-let app = new Vue({
-	el: '#app_container',
-	data: {
-		game_engine: (function() {a = new GameEngine(); console.log("game_engine:", a); return a})()
-	},
-	methods: {
-		trigger_blind_tester_component: function() {
-			this.game_engine.is_playing = true;
-			this.$refs["blindTesterComp"].start_blindtest();
-		},
-		blindtest_is_ready(){
-			return this.game_engine.compute_testable_animes_pool().length > 0;
-		},
-		get_css_disabled_style: get_css_disabled_style
-	}
-});
