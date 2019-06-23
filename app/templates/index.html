@@ -38,7 +38,7 @@
 							<h4>List of testable animes</h4>
 							<testable-animes-list-component v-bind:m_game_engine="game_engine"></testable-animes-list-component>
 						</div>
-						<div id="button_container">
+						<div id="button_container" v-bind:style="get_css_disabled_style(!blindtest_is_ready())">
 							<div class="button" id="blind_test_button" v-on:click="trigger_blind_tester_component()">
 								Blind test me !
 							</div>

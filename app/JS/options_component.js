@@ -17,17 +17,7 @@ Vue.component('options-component', {
 		this.$emit('update:options', this.options)
 	},
 	methods: {
-		get_css_disabled_style(is_disabled){
-			if(is_disabled){
-				return {
-					'opacity': 0.3,
-					'pointer-events': 'none'
-				}
-			}
-			else {
-				return {}
-			}
-		}
+		get_css_disabled_style: get_css_disabled_style
 	},
 	template: `
 		<div class="options_component">

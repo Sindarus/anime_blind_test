@@ -7,6 +7,13 @@
     /* Other */
 }
 
+@mixin user-select-none() {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
 $c_1: #233d4d;
 $c_2: #8ed081;
 $c_3: #fe7f2d;
@@ -88,6 +95,7 @@ body {
 
                 #blind_test_button {
                     margin: 20px;
+                    @include user-select-none();
                 }
             }
         }
