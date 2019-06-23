@@ -11,7 +11,7 @@ class PausableTimout{
         return new Promise(((resolve, reject) => {
             this.reject_func = reject;
             this.resolve_func = resolve;
-            this.set_timeout()
+            this._set_timeout()
         }))
     };
 
@@ -23,7 +23,7 @@ class PausableTimout{
 
     resume(){
         if(this.timeout_id !== -1) return;
-        this.set_timeout();
+        this._set_timeout();
         this.start_time = Date.now();
     };
 
@@ -35,14 +35,16 @@ class PausableTimout{
         }
     }
 
-    resolve_aux(){
+    _resolve_aux(){
         this.timeout_id = -1;
         this.resolve_func();
     }
 
-    set_timeout(){
-        this.timeout_id = window.setTimeout(() => this.resolve_aux(), this.remaining_ms);
+    _set_timeout(){
+        this.timeout_id = window.setTimeout(() => this._resolve_aux(), this.remaining_ms);
     }
+
+
 }
 
 class Timer{
@@ -52,13 +54,22 @@ class Timer{
     }
 
     start(duration_s){
+        this.resolved_early = false;
         this.update_callback(duration_s);
         if(duration_s <= 0) return Promise.resolve();
         return new Promise(((resolve, reject) => {
+            this.resolve_func = resolve;
+            this.reject_func = reject;
             this.pausable_timeout.start(1000)
                 .then(() => this.start(duration_s - 1))
                 .then(resolve, reject)
         }));
+    }
+
+    jump_to_end(){
+        this.resolve_func();
+        this.resolved_early = true;
+        this.pausable_timeout.clear();
     }
 
     pause(){ this.pausable_timeout.pause(); }

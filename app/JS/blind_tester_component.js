@@ -52,6 +52,11 @@ Vue.component('blind-tester-component', {
                     // Timer has been .clear()'ed. Do nothing.
                 })
         },
+        reveal_early(){
+            if(!this.is_revealed){
+                this.timer.jump_to_end();
+            }
+        },
         choose_video_to_blindtest() {
             const testable_video_pool = this.m_game_engine.compute_testable_videos_pool();
             if(Object.keys(testable_video_pool).length === 0){
@@ -126,7 +131,8 @@ Vue.component('blind-tester-component', {
         get_video_opacity(){
             if(this.is_revealed) return '1';
             else return MOCK_MODE ? '0.2' : '0';
-        }
+        },
+        get_css_disabled_style: get_css_disabled_style
     },
     template: `
         <div class="blind_tester_component" v-show="m_game_engine.is_playing">
@@ -142,6 +148,9 @@ Vue.component('blind-tester-component', {
                 </span>
                 <span class="UI_button" v-on:click="blindtest_loop()">
                     <i class="fas fa-2x fa-running"></i>
+                </span>
+                <span class="UI_button" v-on:click="reveal_early()" v-bind:style="get_css_disabled_style(is_revealed)">
+                    <i class="fas fa-2x fa-eye"></i>
                 </span>
             </div>
             <div class="UI_block top right">

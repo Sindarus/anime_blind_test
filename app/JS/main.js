@@ -1,5 +1,5 @@
 //Mocking options
-MOCK_MODE = true;
+MOCK_MODE = false;
 MOCKED_API_RESPONSE = {
 	user_animelist: ["Macross Delta", "Nichijou"],
 	animelist_availability: {
