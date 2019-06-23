@@ -39,10 +39,6 @@ MOCKED_API_RESPONSE = {
 	}
 };
 
-// Interface options
-TIME_BEFORE_REVEAL = 20;
-TIME_BEFORE_NEXT = 10;
-
 let app = new Vue({
 	el: '#app_container',
 	data: {
