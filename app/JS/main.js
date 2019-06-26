@@ -1,5 +1,8 @@
 //Mocking options
-MOCK_MODE = false;
+MOCK_MODE = true;
+if(window.location.hostname !== "localhost"){
+	MOCK_MODE = false;
+}
 MOCKED_API_RESPONSE = {
 	user_animelist: ["Macross Delta", "Nichijou"],
 	animelist_availability: {
