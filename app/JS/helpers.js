@@ -43,3 +43,15 @@ function mimeToExt(mime) {
 	if (mime.startsWith("video/webm")) return ".webm";
 	return "";
 }
+
+function get_css_disabled_style(is_disabled){
+	if(is_disabled){
+		return {
+			'opacity': 0.3,
+			'pointer-events': 'none'
+		}
+	}
+	else {
+		return {}
+	}
+}

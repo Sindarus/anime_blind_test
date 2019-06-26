@@ -5,7 +5,8 @@ Vue.component('options-component', {
 				joint_animes: true,
 				prevent_looping: true,
 				time_till_reveal: MOCK_MODE ? 5 : 20,
-				time_till_next_vid: MOCK_MODE ? 5 : 10
+				time_till_next_vid: MOCK_MODE ? 5 : 10,
+				watch_till_end: false
 			}
 		}
 	},
@@ -14,6 +15,9 @@ Vue.component('options-component', {
 	},
 	beforeUpdate(){
 		this.$emit('update:options', this.options)
+	},
+	methods: {
+		get_css_disabled_style: get_css_disabled_style
 	},
 	template: `
 		<div class="options_component">
@@ -40,18 +44,27 @@ Vue.component('options-component', {
 				</tr>
 				<tr>
 					<td>
-						<span>Time until revealed</span>
+						<span>Alloted time for guessing the anime (sec.)</span>
 					</td>
 					<td class="option_control">
-						<input type="number" v-model="options.time_till_reveal"> sec.
+						<input type="number" v-model="options.time_till_reveal">
 					</td>
 				</tr>
-				<tr>
+				<tr v-bind:style="get_css_disabled_style(options.watch_till_end)">
 					<td>
-						<span>Time until next video</span>
+						<span>Alloted time for watching the answer (sec.)</span>
 					</td>
 					<td class="option_control">
-						<input type="number" v-model="options.time_till_next_vid"> sec.
+						<input type="number" v-model="options.time_till_next_vid">
+					</td>
+				</tr>
+				<tr v-on:click="options.watch_till_end = !options.watch_till_end">
+					<td>
+						<span>Watch videos till the end</span>
+					</td>
+					<td class="option_control">
+						<span v-show="options.watch_till_end"><span class="fas fa-2x fa-toggle-on"></span></span>
+						<span v-show="!options.watch_till_end"><span class="fas fa-2x fa-toggle-off"></span></span>
 					</td>
 				</tr>
 			</table>
