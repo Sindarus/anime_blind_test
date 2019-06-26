@@ -6,7 +6,8 @@ Vue.component('blind-tester-component', {
             current_video: "",
             count_down_value: 0,
             video_elt: undefined,
-            should_show_info: false
+            should_show_info: false,
+            infinite_timer: false
         };
     },
     mounted() {
@@ -54,7 +55,9 @@ Vue.component('blind-tester-component', {
         },
         reveal_early(){
             if(!this.is_revealed){
-                this.timer.jump_to_end();
+                this.timer.clear();
+                this.is_revealed = true;
+                this.show_video_info();
             }
         },
         choose_video_to_blindtest() {
@@ -108,6 +111,11 @@ Vue.component('blind-tester-component', {
                 window.clearTimeout(this.hide_info_timeout_id);
                 this.hide_info_timeout_id = -1;
             }
+            this.infinite_timer = false;
+        },
+        timer_clicked(){
+            this.timer.clear();
+            this.infinite_timer = true;
         },
         cur_vid_has_song() {
             return this.current_video.song !== undefined;
@@ -154,7 +162,17 @@ Vue.component('blind-tester-component', {
                 </span>
             </div>
             <div class="UI_block top right">
-                <p id="timer" v-show="!is_revealed || !m_game_engine.options.watch_till_end">{{ count_down_value }}</p>
+                <div id="timer" v-show="!is_revealed || !m_game_engine.options.watch_till_end"
+                                v-on:click="timer_clicked"
+                                v-bind:class="{ clickable: !infinite_timer }">
+                    <div class="timer_value_container">
+                        <span class="timer_value" v-show="!infinite_timer">{{ count_down_value }}</span>
+                        <span class="timer_cross" v-show="infinite_timer"><i class="fas fa-infinity"></i></span>
+                    </div>
+                    <div class="cross_overlay">
+                        <i class="fas fa-2x fa-times"></i>
+                    </div>
+                </div>
             </div>
             <div class="video_info_overlay" v-show="is_revealed && should_show_info">
                 <div class="video_info_container">
