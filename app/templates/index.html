@@ -11,7 +11,9 @@
 		  <script defer src="{{ ASSET_URL }}"></script>
 		{% endassets %}
 
-		<script src="/static/JS/font-awesome.js"></script>
+		{% assets "fa_all" %}
+			<script src="{{ ASSET_URL }}"></script>
+		{% endassets %}
 	</head>
 	<body>
 		<div id="app_container"></div>

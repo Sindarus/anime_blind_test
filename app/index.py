@@ -41,6 +41,12 @@ js_bundle = Bundle(
 )
 assets.register('js_all', js_bundle)
 
+fa_bundle = Bundle(
+    '../JS/font-awesome.js',
+    output='JS/fa_bundle.js'
+)
+assets.register('fa_all', fa_bundle)
+
 
 @app.route('/')
 def index():
