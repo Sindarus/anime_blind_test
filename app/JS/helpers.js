@@ -19,6 +19,14 @@ Array.prototype.has = function(obj) {
 	return this.find(cur_obj => cur_obj === obj) !== undefined;
 };
 
+Array.prototype.remove = function(obj) {
+	const i = this.find(cur_obj => cur_obj === obj);
+	if(i !== undefined){
+		this.splice(i, 1);
+		this.remove(obj);	// remove all occurences
+	}
+};
+
 function intersection(array_of_arrays){
 	if(array_of_arrays.length === 0){
 		return [];

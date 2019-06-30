@@ -12,6 +12,7 @@ class GameEngine {
 		this.current_video = undefined;
 
 		this.anime_blacklist = [];
+		this.anime_whitelist = [];
 	}
 
 	add_player(player) {
@@ -63,15 +64,10 @@ class GameEngine {
 		let unioned_animes = union(this.players.map(player => player.testable_animes));
 
 		let is_selected = anime => {
-			if(this.anime_blacklist.has(anime)){
-				return false;
-			}
-			else if (this.options.joint_animes){
-				return intersected_animes.has(anime);
-			}
-			else{
-				return true;
-			}
+			if(this.anime_blacklist.has(anime)) return false;
+			else if(this.anime_whitelist.has(anime)) return true;
+			else if (this.options.joint_animes) return intersected_animes.has(anime);
+			else return true;
 		};
 
 		return unioned_animes.map(anime => {
@@ -98,6 +94,17 @@ class GameEngine {
 		}
 		else{
 			this.seen_videos[anime] = [video];
+		}
+	}
+
+	toggle_anime_selection(anime_name, selected){
+		if(selected === true){
+			this.anime_blacklist.remove(anime_name);
+			this.anime_whitelist.push(anime_name);
+		}
+		else {
+			this.anime_whitelist.remove(anime_name);
+			this.anime_blacklist.push(anime_name);
 		}
 	}
 }

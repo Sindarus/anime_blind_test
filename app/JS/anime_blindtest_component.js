@@ -11,7 +11,10 @@ let app = new Vue({
         blindtest_is_ready(){
             return this.game_engine.compute_testable_animes_pool().length > 0;
         },
-        get_css_disabled_style: get_css_disabled_style
+        get_css_disabled_style: get_css_disabled_style,
+        toggle_anime_selection(event){
+            this.game_engine.toggle_anime_selection(event["anime_name"], event["selected"])
+        }
     },
     template: `
         <div id="app_container">
@@ -36,7 +39,10 @@ let app = new Vue({
                     <div id="right_half">
                         <div class="section" id="testable_animes_section">
                             <h4>List of testable animes</h4>
-                            <testable-animes-list-component v-bind:m_game_engine="game_engine"></testable-animes-list-component>
+                            <testable-animes-list-component
+                                v-bind:m_game_engine="game_engine"
+                                v-on:toggle-anime-selection="toggle_anime_selection($event)">
+                            </testable-animes-list-component>
                         </div>
                         <div id="button_container" v-bind:style="get_css_disabled_style(!blindtest_is_ready())">
                             <div class="button" id="blind_test_button" v-on:click="trigger_blind_tester_component()">

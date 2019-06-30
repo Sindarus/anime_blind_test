@@ -4,8 +4,8 @@ Vue.component('testable-animes-list-component', {
 		<table id="testable_animes_list">
 			<tr v-for="anime in get_all_animes_list()"
 				class="testable_anime_row"
-				v-bind:class="{disabled: !anime.selected}">
-				<td class="player_list">
+				v-bind:class="{disabled: !anime.selected, enabled: anime.selected}">
+				<td class="player_list_td">
 					<div class="player_list">
 						<player-component v-for="player in anime.players"
 										  v-bind:key="player.username"
@@ -23,6 +23,15 @@ Vue.component('testable-animes-list-component', {
 						</div>
 					</div>
 				</td>
+				<td class="action_td" v-on:click="toggle_anime_selection(anime)">
+					<div class="action_icon">
+						<div v-show="anime.selected">
+							<div>-</div>
+							<div class="spacer"></div>
+						</div>
+						<div v-show="!anime.selected">+</div>
+					</div>
+				</td>
 			</tr>
 			<span v-if="get_all_animes_list().length === 0">No anime to blindtest. Please add some.</span>
 		</table>
@@ -34,5 +43,14 @@ Vue.component('testable-animes-list-component', {
 				return players_anime_1.players.length < players_anime_2.players.length;
 			});
 		},
+		toggle_anime_selection: function(anime) {
+			if(anime.selected === true){
+				this.$emit("toggle-anime-selection", {"selected": false, "anime_name": anime.anime_name});
+			}
+			else if(anime.selected === false) {
+				this.$emit("toggle-anime-selection", {"selected": true, "anime_name": anime.anime_name});
+			}
+			else throw "anime.selected should be either true or false";
+		}
 	}
 });

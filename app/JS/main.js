@@ -1,15 +1,15 @@
 //Mocking options
-MOCK_MODE = true;
+MOCK_MODE = false;
 if(window.location.hostname !== "localhost"){
 	MOCK_MODE = false;
 }
 MOCKED_API_RESPONSE = {
-	user_animelist: ["Macross Delta", "Nichijou"],
+	user_animelist: ["Macross Delta", "Nichijou + a very long anime name that takes up multiple lines"],
 	animelist_availability: {
 		"Macross Delta": "Macross Delta",
-		"Nichijou": "Nichijou"
+		"Nichijou + a very long anime name that takes up multiple lines": "Nichijou + a very long anime name that takes up multiple lines"
 	},
-	testable_animes: ["Macross Delta", "Nichijou"],
+	testable_animes: ["Macross Delta", "Nichijou + a very long anime name that takes up multiple lines"],
 	testable_videos: {
 		"Macross Delta": [
 			{
@@ -25,10 +25,10 @@ MOCKED_API_RESPONSE = {
 				}
 			},
 		],
-		"Nichijou": [
+		"Nichijou + a very long anime name that takes up multiple lines": [
 			{
 				"title": "Opening 1a",
-				"source": "Nichijou",
+				"source": "Nichijou + a very long anime name that takes up multiple lines",
 				"file": "nichijou",
 				"mime": [
 					"video/mp4",
