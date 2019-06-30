@@ -1,4 +1,7 @@
 function deep_copy(obj) {
+	if(obj === undefined){
+		return undefined
+	}
 	return JSON.parse(JSON.stringify(obj));
 }
 
@@ -10,6 +13,10 @@ Array.prototype.unite = function(array2){
 	return this.concat(array2.filter(item => {
 	    return this.indexOf(item) < 0;
 	}));
+};
+
+Array.prototype.has = function(obj) {
+	return this.find(cur_obj => cur_obj === obj) !== undefined;
 };
 
 function intersection(array_of_arrays){

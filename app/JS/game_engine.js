@@ -10,6 +10,8 @@ class GameEngine {
 
 		this.is_playing = false;
 		this.current_video = undefined;
+
+		this.anime_blacklist = [];
 	}
 
 	add_player(player) {
@@ -17,8 +19,8 @@ class GameEngine {
 	}
 
 	compute_testable_videos_pool() {
-		let all_animes = IndexedVideoList.merge_all(this.players.map(player => player.testable_videos));
-		var pool = all_animes.subset(this.compute_testable_animes_pool());
+		const all_animes = IndexedVideoList.merge_all(this.players.map(player => player.testable_videos));
+		let pool = all_animes.subset(this.compute_testable_animes_pool());
 
 		if(Object.keys(pool).length === 0){
 			return pool;
@@ -45,14 +47,44 @@ class GameEngine {
 	}
 
 	compute_testable_animes_pool() {
-		let pool;
-		if(this.options.joint_animes){
-			pool = intersection(this.players.map(player => player.testable_animes));
-		}
-		else {
-			pool = union(this.players.map(player => player.testable_animes));
-		}
-		return pool;
+		return this.compute_all_animes_list()
+			.filter(anime => anime.selected)
+			.map(anime => anime["anime_name"])
+	}
+
+	compute_all_animes_list() {
+		/* [{
+				"anime_name": "...",
+				"players": [...],
+				"selected": ...
+			}, ...]
+		*/
+		let intersected_animes = intersection(this.players.map(player => player.testable_animes));
+		let unioned_animes = union(this.players.map(player => player.testable_animes));
+
+		let is_selected = anime => {
+			if(this.anime_blacklist.has(anime)){
+				return false;
+			}
+			else if (this.options.joint_animes){
+				return intersected_animes.has(anime);
+			}
+			else{
+				return true;
+			}
+		};
+
+		return unioned_animes.map(anime => {
+			return {
+				anime_name: anime,
+				players: this.players
+					.filter(player => player.has_seen(anime))
+					.sort((player_1, player_2) => {
+						return player_1.testable_animes.length - player_2.testable_animes.length
+					}),
+				selected: is_selected(anime)
+			}
+		})
 	}
 
 	add_seen_video(anime, video){

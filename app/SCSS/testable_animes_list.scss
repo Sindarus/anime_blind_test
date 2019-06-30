@@ -2,6 +2,10 @@ table#testable_animes_list {
 	width: 100%;
 
 	.testable_anime_row {
+		&.disabled {
+			opacity: 0.5;
+		}
+
 		.player_list {
 			display: flex;
 			flex-direction: row;
@@ -14,6 +18,4 @@ table#testable_animes_list {
 			width: 100%;
 		}
 	}
-
-
 }

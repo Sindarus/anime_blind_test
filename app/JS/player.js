@@ -50,6 +50,6 @@ function Player(username) {
 	};
 
 	this.has_seen = function(anime) {
-		return this.testable_animes.find(cur_anime => cur_anime == anime) !== undefined;
+		return this.testable_animes.has(anime);
 	};
 }
