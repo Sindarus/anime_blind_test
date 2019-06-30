@@ -10,7 +10,8 @@ Vue.component('testable-animes-list-component', {
 						<player-component v-for="player in anime.players"
 										  v-bind:key="player.username"
 										  v-bind:player="player"
-										  v-bind:small="true">
+										  v-bind:small="true"
+										  v-bind:dark_mode="false">
 						</player-component>
 					</div>
 				</td>

@@ -33,4 +33,9 @@
 
 		box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, .2);
 	}
+
+	&.dark{
+		background-color: #222;
+		color: white;
+	}
 }

@@ -1,10 +1,11 @@
 Vue.component('player-list-component', {
-	props: ['players'],
+	props: ['players', 'dark_mode'],
 	template: `
 		<div>
 			<player-component v-for="cur_player in players"
 							  v-bind:player="cur_player"
-							  v-bind:key="cur_player.username">
+							  v-bind:key="cur_player.username"
+							  v-bind:dark_mode="dark_mode">
 			</player-component>
 		</div>
 	`

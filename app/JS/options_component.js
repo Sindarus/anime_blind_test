@@ -6,7 +6,8 @@ Vue.component('options-component', {
 				prevent_looping: true,
 				time_till_reveal: MOCK_MODE ? 5 : 20,
 				time_till_next_vid: MOCK_MODE ? 5 : 10,
-				watch_till_end: false
+				watch_till_end: false,
+				show_who_has_seen: false
 			}
 		}
 	},
@@ -65,6 +66,16 @@ Vue.component('options-component', {
 					<td class="option_control">
 						<span v-show="options.watch_till_end"><span class="fas fa-2x fa-toggle-on"></span></span>
 						<span v-show="!options.watch_till_end"><span class="fas fa-2x fa-toggle-off"></span></span>
+					</td>
+				</tr>
+				<tr v-on:click="options.show_who_has_seen = !options.show_who_has_seen">
+					<td>
+						<span v-show="options.show_who_has_seen">Show who has seen the anime while guessing</span>
+						<span v-show="!options.show_who_has_seen">Don't show who has seen the anime while guessing</span>
+					</td>
+					<td class="option_control">
+						<span v-show="options.show_who_has_seen"><span class="fas fa-2x fa-toggle-on"></span></span>
+						<span v-show="!options.show_who_has_seen"><span class="fas fa-2x fa-toggle-off"></span></span>
 					</td>
 				</tr>
 			</table>

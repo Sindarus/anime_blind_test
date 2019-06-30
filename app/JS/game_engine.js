@@ -28,8 +28,9 @@ class GameEngine {
 		}
 
 		if(this.options.prevent_looping) {
-			Object.keys(this.seen_videos).forEach((anime, anime_i) => {
-				this.seen_videos[anime].forEach((seen_video, video_i) => {
+			Object.keys(this.seen_videos).forEach((anime, _) => {
+				if(pool[anime] === undefined) return;
+				this.seen_videos[anime].forEach((seen_video, _) => {
 					pool[anime] = pool[anime].filter(video => video["file"] !== seen_video["file"]);
 				});
 				if(pool[anime].length === 0){

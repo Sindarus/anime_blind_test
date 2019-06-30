@@ -99,7 +99,7 @@ Vue.component('blind-tester-component', {
                     this.should_show_info = false;
                     this.hide_info_timeout_id = -1;
                 },
-                4000
+                10000
             )
         },
         reset(){
@@ -112,6 +112,10 @@ Vue.component('blind-tester-component', {
                 this.hide_info_timeout_id = -1;
             }
             this.infinite_timer = false;
+        },
+        get_players_who_have_seen() {
+            const anime = this.current_video["source"];
+            return this.m_game_engine.players.filter(player => player.has_seen(anime))
         },
         timer_clicked(){
             this.timer.clear();
@@ -160,6 +164,12 @@ Vue.component('blind-tester-component', {
                 <span class="UI_button" v-on:click="reveal_early()" v-bind:style="get_css_disabled_style(is_revealed)">
                     <i class="fas fa-2x fa-eye"></i>
                 </span>
+            </div>
+            <div class="UI_block bottom left">
+                <player-list-component v-show="m_game_engine.options.show_who_has_seen"
+                                       v-bind:players="get_players_who_have_seen()"
+                                       v-bind:dark_mode="true">
+                </player-list-component>
             </div>
             <div class="UI_block top right">
                 <div id="timer" v-show="!is_revealed || !m_game_engine.options.watch_till_end"
