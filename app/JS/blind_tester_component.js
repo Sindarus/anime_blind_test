@@ -7,7 +7,9 @@ Vue.component('blind-tester-component', {
             count_down_value: 0,
             video_elt: undefined,
             should_show_info: false,
-            infinite_timer: false
+            infinite_timer: false,
+            top_tooltip: { message: "" },
+            bottom_tooltip: { message: "" }
         };
     },
     mounted() {
@@ -144,7 +146,13 @@ Vue.component('blind-tester-component', {
             if(this.is_revealed) return '1';
             else return MOCK_MODE ? '0.2' : '0';
         },
-        get_css_disabled_style: get_css_disabled_style
+        get_css_disabled_style: get_css_disabled_style,
+        build_tooltip_updater(tooltip, message){
+            return {
+                "mouseenter": () => tooltip.message = message,
+                "mouseleave": () => tooltip.message = ''
+            }
+        }
     },
     template: `
         <div class="blind_tester_component" v-show="m_game_engine.is_playing">
@@ -155,21 +163,37 @@ Vue.component('blind-tester-component', {
                    v-on:ended="blindtest_loop()">
             </video>
             <div class="UI_block top left">
-                <span class="UI_button" v-on:click="stop_blindtest()">
-                    <i class="fas fa-2x fa-arrow-left"></i>
-                </span>
-                <span class="UI_button" v-on:click="blindtest_loop()">
-                    <i class="fas fa-2x fa-running"></i>
-                </span>
-                <span class="UI_button" v-on:click="reveal_early()" v-bind:style="get_css_disabled_style(is_revealed)">
-                    <i class="fas fa-2x fa-eye"></i>
+                <div>
+                    <span class="UI_button" v-on:click="stop_blindtest()"
+                          v-on="build_tooltip_updater(top_tooltip, 'Stop blindtest')">
+                        <i class="fas fa-2x fa-arrow-left"></i>
+                    </span>
+                    <span class="UI_button" v-on:click="blindtest_loop()"
+                          v-on="build_tooltip_updater(top_tooltip, 'Skip this video')">
+                        <i class="fas fa-2x fa-running"></i>
+                    </span>
+                    <span class="UI_button" v-on:click="reveal_early()"
+                          v-bind:style="get_css_disabled_style(is_revealed)"
+                          v-on="build_tooltip_updater(top_tooltip, 'Reveal video now')">
+                        <i class="fas fa-2x fa-eye"></i>
+                    </span>
+                </div>
+                <span class="tooltip" v-show="top_tooltip.message !== ''">
+                    {{ top_tooltip.message }}
                 </span>
             </div>
             <div class="UI_block bottom left">
-                <player-list-component v-show="m_game_engine.options.show_who_has_seen"
-                                       v-bind:players="get_players_who_have_seen()"
-                                       v-bind:dark_mode="true">
-                </player-list-component>
+                <span class="tooltip" v-show="bottom_tooltip.message !== ''">
+                    {{ bottom_tooltip.message }}
+                </span>
+                <div>
+                    <player-component v-for="player in get_players_who_have_seen()"
+                                      v-bind:key="player.username"
+                                      v-bind:player="player"
+                                      v-bind:dark_mode="true"
+                                      v-on="build_tooltip_updater(bottom_tooltip, player.username + ' has seen this anime')">
+                    </player-component> 
+                </div>
             </div>
             <div class="UI_block top right">
                 <div id="timer" v-show="!is_revealed || !m_game_engine.options.watch_till_end"

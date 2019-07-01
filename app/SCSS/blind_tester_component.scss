@@ -122,6 +122,18 @@ $UI_margin: 1em;
         svg {
             font-size: 2em;
         }
+
+        .tooltip {
+            display: inline-block;
+
+            color: #555555;
+            background-color: white;
+
+            padding: 8px;
+            border-radius: 5px;
+
+            margin: 10px;
+        }
     }
 
     .bottom {
