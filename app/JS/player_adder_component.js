@@ -12,7 +12,12 @@ Vue.component('player-adder-component', {
 				<input type="text" id="mal_nickname" name="mal_nickname" placeholder="MAL username" v-model="username">
 				<button type="submit" class="button">Load my anime list !</button>
 			</form>
-			<p class="loading_msg" v-if="loading_user_animelist">Loading...</p>
+			<p class="loading_msg" v-if="loading_user_animelist">
+				Loading...
+				<span>
+					<i class="fas fa-sync fa-spin"></i>
+				</span>
+			</p>
 		</div>
 	`,
 	methods: {
