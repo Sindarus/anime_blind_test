@@ -1,5 +1,5 @@
 //Mocking options
-MOCK_MODE = true;
+MOCK_MODE = false;
 if(window.location.hostname !== "localhost"){
 	MOCK_MODE = false;
 }

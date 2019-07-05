@@ -9,21 +9,22 @@ Vue.component('blind-tester-component', {
             should_show_info: false,
             infinite_timer: false,
             top_tooltip: { message: "" },
-            bottom_tooltip: { message: "" }
+            bottom_tooltip: { message: "" },
+            abort_waiting_for_video: () => {},
+            video_is_loaded: false
         };
     },
     mounted() {
         this.video_elt = this.$el.querySelector("video");
         this.timer = new Timer(x => this.count_down_value = x);
-        this.video_elt.onerror = e => {
+        this.video_elt.addEventListener('error', e => {
             this.stop_blindtest();
             console.log("There was an error on the video while blindtesting, cannot continue. error: ", e);
             alert("There was an error on the video while blindtesting, cannot continue. error:" + e);
-        };
-        this.video_elt.oncanplaythrough = e => {
+        });
+        this.video_elt.addEventListener('canplaythrough', e => {
             this.video_elt.focus();
-        };
-        console.log("options: ", this.m_game_engine.options)
+        });
     },
     methods: {
         start_blindtest() {
@@ -35,13 +36,16 @@ Vue.component('blind-tester-component', {
                 console.log("There was an error while blindtesting, cannot continue. error: ", e);
                 alert("There was an error while blindtesting, cannot continue. error:" + e);
             }
-            console.log("blindtested video: ", this.current_video);
         },
         blindtest_loop(){
             this.reset();
             this.current_video = this.choose_video_to_blindtest();
-            this.load_current_video();
-            this.timer.start(this.m_game_engine.options.time_till_reveal)
+            console.log("Blindtesting video : ", this.current_video);
+            this.load_current_video().then(() => {
+                    this.video_is_loaded = true;
+                    this.video_elt.play();
+                    return this.timer.start(this.m_game_engine.options.time_till_reveal)
+                })
                 .then(() => {
                     this.is_revealed = true;
                     this.show_video_info();
@@ -77,8 +81,19 @@ Vue.component('blind-tester-component', {
         },
         load_current_video() {
             this.video_elt.setAttribute("src", this.get_current_video_source());
-            this.video_elt.autoplay = true;
             this.video_elt.load();
+
+            return new Promise((resolve, reject) => {
+                this.video_elt.addEventListener('canplaythrough', () => {
+                    resolve();
+                });
+                this.abort_waiting_for_video = () => {
+                    reject();
+                };
+                if(this.video_elt.readyState > 3){
+                    resolve();
+                }
+            });
         },
         get_current_video_source() {
             const filename = this.current_video["file"];
@@ -106,8 +121,10 @@ Vue.component('blind-tester-component', {
         },
         reset(){
             this.video_elt.pause();
+            this.abort_waiting_for_video();
             this.timer.clear();
             this.is_revealed = false;
+            this.video_is_loaded = false;
             this.should_show_info = false;
             if(this.hide_info_timeout_id !== -1){
                 window.clearTimeout(this.hide_info_timeout_id);
@@ -173,7 +190,7 @@ Vue.component('blind-tester-component', {
                         <i class="fas fa-2x fa-running"></i>
                     </span>
                     <span class="UI_button" v-on:click="reveal_early()"
-                          v-bind:style="get_css_disabled_style(is_revealed)"
+                          v-bind:style="get_css_disabled_style(is_revealed || !video_is_loaded)"
                           v-on="build_tooltip_updater(top_tooltip, 'Reveal video now')">
                         <i class="fas fa-2x fa-eye"></i>
                     </span>
@@ -195,7 +212,7 @@ Vue.component('blind-tester-component', {
                     </player-component> 
                 </div>
             </div>
-            <div class="UI_block top right">
+            <div class="UI_block top right" v-show="video_is_loaded">
                 <div id="timer" v-show="!is_revealed || !m_game_engine.options.watch_till_end"
                                 v-on:click="timer_clicked"
                                 v-bind:class="{ clickable: !infinite_timer }">
@@ -216,6 +233,14 @@ Vue.component('blind-tester-component', {
                         <div v-if="cur_vid_has_song_artist()">Artist: {{ get_cur_vid_song_artist() }}</div>
                     </div>
                 </div>
+            </div>
+            <div class="loading_spinner_overlay" v-show="!video_is_loaded">
+                <div class="spinner">
+                    <i class="fas fa-sync fa-spin"></i>
+                </div>
+                <span class="tooltip">
+                    Loading
+                </span>
             </div>
         </div>
     `
