@@ -57,7 +57,7 @@ Vue.component('blind-tester-component', {
         },
         reveal_early(){
             if(!this.is_revealed){
-                this.timer.clear();
+                this.timer.jump_to_end();
                 this.is_revealed = true;
                 this.show_video_info();
             }
