@@ -22,7 +22,7 @@ Vue.component('testable-animes-list-component', {
 						</div>
 					</div>
 				</td>
-				<td class="action_td" v-on:click="toggle_anime_selection(anime)">
+				<td class="action_td" v-on:click="fire_toggle_anime_selection(anime)">
 					<div class="action_icon">
 						<div v-show="anime.selected">
 							<div>-</div>
@@ -42,7 +42,7 @@ Vue.component('testable-animes-list-component', {
 				return players_anime_1.players.length < players_anime_2.players.length;
 			});
 		},
-		toggle_anime_selection: function(anime) {
+		fire_toggle_anime_selection: function(anime) {
 			if(anime.selected === true){
 				this.$emit("toggle-anime-selection", {"selected": false, "anime_name": anime.anime_name});
 			}

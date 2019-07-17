@@ -22,7 +22,8 @@ Vue.component('options-component', {
 	template: `
 		<div class="options_component">
 			<table>
-				<tr v-on:click="options.joint_animes = !options.joint_animes" class="bottom_separator">
+				<tr v-on:click="options.joint_animes = !options.joint_animes" class="bottom_separator"
+					v-on:click="$emit('anime-selection-method-changed')">
 					<td>
 						<span>Only blindtest animes that everyone has seen</span>
 					</td>

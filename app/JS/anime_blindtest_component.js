@@ -12,8 +12,12 @@ let app = new Vue({
             return this.game_engine.compute_testable_animes_pool().length > 0;
         },
         get_css_disabled_style: get_css_disabled_style,
-        toggle_anime_selection(event){
+        on_toggle_anime_selection(event){
             this.game_engine.toggle_anime_selection(event["anime_name"], event["selected"])
+        },
+        clear_grey_lists(){
+            this.game_engine.anime_blacklist = [];
+            this.game_engine.anime_whitelist = [];
         }
     },
     template: `
@@ -33,7 +37,9 @@ let app = new Vue({
                         </div>
                         <div class="section" id="options">
                             <h4>Options</h4>
-                            <options-component v-on:update:options="game_engine.options = $event"></options-component>
+                            <options-component v-on:update:options="game_engine.options = $event"
+                                               v-on:anime-selection-method-changed="clear_grey_lists()">
+                            </options-component>
                         </div>
                     </div>
                     <div id="vertical_separator"></div>
@@ -42,7 +48,7 @@ let app = new Vue({
                             <h4>List of testable animes</h4>
                             <testable-animes-list-component
                                 v-bind:m_game_engine="game_engine"
-                                v-on:toggle-anime-selection="toggle_anime_selection($event)">
+                                v-on:toggle-anime-selection="on_toggle_anime_selection($event)">
                             </testable-animes-list-component>
                         </div>
                         <div id="button_container" v-bind:style="get_css_disabled_style(!blindtest_is_ready())">
