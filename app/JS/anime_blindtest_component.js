@@ -41,6 +41,11 @@ let app = new Vue({
                                                v-on:anime-selection-method-changed="clear_grey_lists()">
                             </options-component>
                         </div>
+                        <div id="button_container" v-bind:style="get_css_disabled_style(!blindtest_is_ready())">
+                            <div class="button" id="blind_test_button" v-on:click="trigger_blind_tester_component()">
+                                Blind test me !
+                            </div>
+                        </div>
                     </div>
                     <div id="vertical_separator"></div>
                     <div id="right_half">
@@ -50,11 +55,6 @@ let app = new Vue({
                                 v-bind:m_game_engine="game_engine"
                                 v-on:toggle-anime-selection="on_toggle_anime_selection($event)">
                             </testable-animes-list-component>
-                        </div>
-                        <div id="button_container" v-bind:style="get_css_disabled_style(!blindtest_is_ready())">
-                            <div class="button" id="blind_test_button" v-on:click="trigger_blind_tester_component()">
-                                Blind test me !
-                            </div>
                         </div>
                     </div>
                 </div>
