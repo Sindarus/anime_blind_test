@@ -5,11 +5,9 @@ Vue.component('testable-animes-list-component', {
 			<tr v-for="anime in get_all_animes_list()"
 				class="testable_anime_row"
 				v-bind:class="{disabled: !anime.selected, enabled: anime.selected}">
-				<td class="player_list_td">
-					<div class="player_list">
-						<player-component v-for="player in anime.players"
-										  v-bind:key="player.username"
-										  v-bind:player="player"
+				<td v-for="player in m_game_engine.players" v-bind:key="player.username" class="player_td">
+					<div v-if="player.has_seen(anime.anime_name)">
+						<player-component v-bind:player="player"
 										  v-bind:small="true"
 										  v-bind:dark_mode="false">
 						</player-component>

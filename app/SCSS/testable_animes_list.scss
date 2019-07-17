@@ -13,15 +13,8 @@ table#testable_animes_list {
 			visibility: visible;
 		}
 
-		&.disabled td.player_list_td, &.disabled td.anime_name_td{
+		&.disabled td.player_td, &.disabled td.anime_name_td {
 			opacity: 0.5;
-		}
-
-		td.player_list_td .player_list {
-			display: flex;
-			flex-direction: row;
-			justify-content: flex-end;
-			align-items: center;
 		}
 
 		td.anime_name_td {
