@@ -17,13 +17,16 @@ Vue.component('options-component', {
 		this.$emit('update:options', this.options)
 	},
 	methods: {
-		get_css_disabled_style: get_css_disabled_style
+		get_css_disabled_style: get_css_disabled_style,
+        toggle_joint_animes: function() {
+            this.options.joint_animes = !this.options.joint_animes;
+            this.$emit('anime-selection-method-changed')
+        }
 	},
 	template: `
 		<div class="options_component">
 			<table>
-				<tr v-on:click="options.joint_animes = !options.joint_animes" class="bottom_separator"
-					v-on:click="$emit('anime-selection-method-changed')">
+				<tr v-on:click="toggle_joint_animes()">
 					<td>
 						<span>Only blindtest animes that everyone has seen</span>
 					</td>
@@ -32,7 +35,7 @@ Vue.component('options-component', {
 						<span v-show="!options.joint_animes"><span class="fas fa-2x fa-toggle-off"></span></span>
 					</td>
 				</tr>
-				<tr class="bottom_separator">
+				<tr>
 					<td>
 						<span>Alloted time for guessing the anime (sec.)</span>
 					</td>
@@ -40,7 +43,7 @@ Vue.component('options-component', {
 						<input type="number" min="0" v-model="options.time_till_reveal">
 					</td>
 				</tr>
-				<tr v-bind:style="get_css_disabled_style(options.watch_till_end)" class="bottom_separator">
+				<tr v-bind:style="get_css_disabled_style(options.watch_till_end)">
 					<td>
 						<span>Time for watching the videos after they are revealed (sec.)</span>
 					</td>
@@ -48,7 +51,7 @@ Vue.component('options-component', {
 						<input type="number" min="1" v-model="options.time_till_next_vid">
 					</td>
 				</tr>
-				<tr v-on:click="options.watch_till_end = !options.watch_till_end" class="bottom_separator">
+				<tr v-on:click="options.watch_till_end = !options.watch_till_end">
 					<td>
 						<span>Watch videos till the end after they are revealed</span>
 					</td>
