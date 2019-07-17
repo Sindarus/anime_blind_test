@@ -3,10 +3,7 @@ class GameEngine {
 		this.players = [];
 		this.seen_videos = {};
 
-		this.options = {
-			joint_animes: true,
-			prevent_looping: true
-		};
+		this.options = {};
 
 		this.is_playing = false;
 		this.current_video = undefined;
@@ -27,17 +24,16 @@ class GameEngine {
 			return pool;
 		}
 
-		if(this.options.prevent_looping) {
-			Object.keys(this.seen_videos).forEach((anime, _) => {
-				if(pool[anime] === undefined) return;
-				this.seen_videos[anime].forEach((seen_video, _) => {
-					pool[anime] = pool[anime].filter(video => video["file"] !== seen_video["file"]);
-				});
-				if(pool[anime].length === 0){
-					delete pool[anime];
-				}
+		Object.keys(this.seen_videos).forEach((anime, _) => {
+			if(pool[anime] === undefined) return;
+			this.seen_videos[anime].forEach((seen_video, _) => {
+				pool[anime] = pool[anime].filter(video => video["file"] !== seen_video["file"]);
 			});
-		}
+			if(pool[anime].length === 0){
+				delete pool[anime];
+			}
+		});
+
 		if(Object.keys(pool).length === 0){
 			// If the pool is empty because we've seen all videos, empty seen videos and return all testable videos
 			this.seen_videos = {};

@@ -43,8 +43,6 @@ class PausableTimout{
     _set_timeout(){
         this.timeout_id = window.setTimeout(() => this._resolve_aux(), this.remaining_ms);
     }
-
-
 }
 
 class Timer{
@@ -54,7 +52,6 @@ class Timer{
     }
 
     start(duration_s){
-        this.resolved_early = false;
         this.update_callback(duration_s);
         if(duration_s <= 0) return Promise.resolve();
         return new Promise(((resolve, reject) => {
