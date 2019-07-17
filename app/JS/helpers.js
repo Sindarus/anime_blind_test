@@ -20,11 +20,13 @@ Array.prototype.has = function(obj) {
 };
 
 Array.prototype.remove = function(obj) {
-	const i = this.find(cur_obj => cur_obj === obj);
-	if(i !== undefined){
+	let n_removed = 0;
+	const i = this.findIndex(cur_obj => cur_obj === obj);
+	if(i !== -1){
 		this.splice(i, 1);
-		this.remove(obj);	// remove all occurences
+		n_removed = 1 + this.remove(obj);	// remove all occurences
 	}
+	return n_removed;
 };
 
 function intersection(array_of_arrays){
