@@ -72,3 +72,7 @@ function get_css_disabled_style(is_disabled){
 		return {}
 	}
 }
+
+function trim_whitespaces(str){
+    return str.replace(/^\s+/, '').replace(/\s+$/, '');
+}
