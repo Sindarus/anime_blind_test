@@ -1,5 +1,8 @@
 # Anime Blind Test
 
+Blindtest anime openings/endings, based on your personal anime list from myanimelist.net, and using videos from openings.moe.
+This is a work in progress.
+
 # Installation
 ```bash
 # Install dependancies
