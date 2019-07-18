@@ -32,8 +32,6 @@ let app = new Vue({
                                                        v-bind:dark_mode="false"></player-list-component>
                                 <player-adder-component v-bind:m_game_engine="game_engine"></player-adder-component>
                             </div>
-                            <div id="playerlist">
-                            </div>
                         </div>
                         <div class="section" id="options">
                             <h4>Options</h4>

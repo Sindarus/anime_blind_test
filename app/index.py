@@ -1,6 +1,6 @@
 # coding: utf8
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, Response
 from flask_assets import Environment
 from webassets import Bundle
 
@@ -14,10 +14,11 @@ assets.url = app.static_url_path
 
 scss_bundle = Bundle(
     '../SCSS/index.scss',
-    '../SCSS/player.scss',
+    '../SCSS/player_component.scss',
     '../SCSS/options_component.scss',
     '../SCSS/testable_animes_list.scss',
     '../SCSS/blind_tester_component.scss',
+    '../SCSS/player_list_component.scss',
     '../SCSS/player_adder_component.scss',
     filters='pyscss', output='CSS/index.css'
 )
@@ -81,3 +82,16 @@ def get_testable_videos_from_mal():
     }
 
     return jsonify(response_dict)
+
+@app.route('/api/v1/get-profile-picture-url/from-MAL', methods=['POST'])
+def get_profile_pic_url():
+    mal_username = request.form['MAL_username']
+
+    profile_pic_url = MALAnimeListLoader.get_profile_picture_url(mal_username)
+
+    if profile_pic_url is None:
+        return Response(status=404)
+    else:
+        return jsonify({
+            "profile_picture_url": profile_pic_url
+        })

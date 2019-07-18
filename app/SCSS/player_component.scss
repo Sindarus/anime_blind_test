@@ -38,4 +38,10 @@
 		background-color: #222;
 		color: white;
 	}
+
+	img {
+		// this will stretch the user profile pic to a square, but who cares ?
+		height: 100%;
+		width: 100%;
+	}
 }

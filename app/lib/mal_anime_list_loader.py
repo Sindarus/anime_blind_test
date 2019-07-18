@@ -84,3 +84,13 @@ class MALAnimeListLoader(object):
             return 2
         else:
             return 3
+
+    @staticmethod
+    def get_profile_picture_url(mal_username):
+        url = "https://api.jikan.moe/v3/user/{username}".format(
+            username=mal_username)
+        profile_res = requests.get(url)
+
+        profile = json.loads(profile_res.text)
+
+        return profile.get("image_url")
