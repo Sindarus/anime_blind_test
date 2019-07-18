@@ -1,44 +1,44 @@
 @mixin user-select-none() {
-	-webkit-user-select: none; /* Safari */
-	-moz-user-select: none; /* Firefox */
-	-ms-user-select: none; /* IE10+/Edge */
-	user-select: none; /* Standard */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
 }
 
 table#testable_animes_list {
-	width: 100%;
+    width: 100%;
 
-	.testable_anime_row {
-		&:hover td.action_td .action_icon {
-			visibility: visible;
-		}
+    .testable_anime_row {
+        &:hover td.action_td .action_icon {
+            visibility: visible;
+        }
 
-		&.disabled td.player_td, &.disabled td.anime_name_td {
-			opacity: 0.5;
-		}
+        &.disabled td.player_td, &.disabled td.anime_name_td {
+            opacity: 0.5;
+        }
 
-		td.anime_name_td {
-			//this is a trick to make this column take as much space as possible
-			width: 100%;
-		}
+        td.anime_name_td {
+            //this is a trick to make this column take as much space as possible
+            width: 100%;
+        }
 
-		td.action_td .action_icon {
-			@include user-select-none();
-			visibility: hidden;
-			font-weight: bold;
-			height: 1.8em;
-			width: 1.8em;
-			border: 2px solid;
-			border-radius: 50%;
+        td.action_td .action_icon {
+            @include user-select-none();
+            visibility: hidden;
+            font-weight: bold;
+            height: 1.8em;
+            width: 1.8em;
+            border: 2px solid;
+            border-radius: 50%;
 
-			display: flex;
-			flex-direction: row;
-			justify-content: center;
-			align-items: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
 
-			.spacer {
-				height: 0.2em;
-			}
-		}
-	}
+            .spacer {
+                height: 0.2em;
+            }
+        }
+    }
 }

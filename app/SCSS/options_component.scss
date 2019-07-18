@@ -1,23 +1,23 @@
 .options_component {
-	table {
-		width: 100%;
-		border-collapse: collapse;
+    table {
+        width: 100%;
+        border-collapse: collapse;
 
-		tr {
-			height: 50px;
-			border-bottom: 1px solid adjust-color(#619b8a, $lightness: +35%);
+        tr {
+            height: 50px;
+            border-bottom: 1px solid adjust-color(#619b8a, $lightness: +35%);
 
-			.option_control {
-				text-align: right;
+            .option_control {
+                text-align: right;
 
-				input {
-					width: 40px;
-				}
-			}
+                input {
+                    width: 40px;
+                }
+            }
 
-			&:last-child {
-				border-bottom: none;
-			}
-		}
-	}
+            &:last-child {
+                border-bottom: none;
+            }
+        }
+    }
 }

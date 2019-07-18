@@ -97,7 +97,7 @@ Vue.component('blind-tester-component', {
         },
         get_current_video_source() {
             const filename = this.current_video["file"];
-            const ext = mimeToExt(this.current_video["mime"][0]);	// select first mime
+            const ext = mimeToExt(this.current_video["mime"][0]);    // select first mime
             if(MOCK_MODE === true) {
                 return "/static/videos/" + encodeURIComponent(filename + ext)
             }
