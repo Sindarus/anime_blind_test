@@ -17,7 +17,7 @@ Vue.component('player-adder-component', {
 				</button>
 			</form>
 			<div v-if="validation_errors.length !== 0" v-for="error in validation_errors" class="valdation_error">
-				{{ error }}
+				• {{ error }}
 			</div>
 			<p class="loading_msg" v-if="loading_user_animelist">
 				Loading...
@@ -54,10 +54,13 @@ Vue.component('player-adder-component', {
 		validate_form() {
 			let validation_errors = [];
 			if(this.username.search(/\s/) !== -1){
-				validation_errors.push("• MyAnimeList usernames may not contain any whitespace.")
+				validation_errors.push("MyAnimeList usernames may not contain any whitespace.")
 			}
 			if(this.username === ''){
-				validation_errors.push("• Username may not be empty.")
+				validation_errors.push("Username may not be empty.")
+			}
+			if(this.m_game_engine.players.find(p => p.username === this.username) !== undefined){
+				validation_errors.push(`You have already loaded ${this.username}'s animelist.`)
 			}
 			return validation_errors
 		},
