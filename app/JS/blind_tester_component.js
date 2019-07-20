@@ -180,7 +180,7 @@ Vue.component('blind-tester-component', {
                    v-on:ended="blindtest_loop()">
             </video>
             <div class="UI_block top left">
-                <div>
+                <div class="Tools">
                     <span class="UI_button" v-on:click="stop_blindtest()"
                           v-on="build_tooltip_updater(top_tooltip, 'Stop blindtest')">
                         <i class="fas fa-2x fa-arrow-left"></i>
@@ -203,7 +203,7 @@ Vue.component('blind-tester-component', {
                 <span class="tooltip" v-show="bottom_tooltip.message !== ''">
                     {{ bottom_tooltip.message }}
                 </span>
-                <div>
+                <div class="Players_icons">
                     <player-component v-for="player in get_players_who_have_seen()"
                                       v-bind:key="player.username"
                                       v-bind:player="player"

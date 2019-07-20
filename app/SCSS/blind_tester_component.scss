@@ -172,4 +172,11 @@ $UI_margin: 1em;
         position: fixed;
         left: $UI_margin;
     }
+
+    .Players_icons {
+        display: flex;
+        flex-direction: row;
+    }
+
+    
 }
