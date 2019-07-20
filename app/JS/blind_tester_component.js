@@ -180,16 +180,19 @@ Vue.component('blind-tester-component', {
                    v-on:ended="blindtest_loop()">
             </video>
             <div class="UI_block top left">
-                <div class="Tools">
-                    <span class="UI_button" v-on:click="stop_blindtest()"
+                <div class="Toolbox">
+                    <span class="UI_button" 
+                          v-on:click="stop_blindtest()"
                           v-on="build_tooltip_updater(top_tooltip, 'Stop blindtest')">
                         <i class="fas fa-2x fa-arrow-left"></i>
                     </span>
-                    <span class="UI_button" v-on:click="blindtest_loop()"
+                    <span class="UI_button" 
+                          v-on:click="blindtest_loop()"
                           v-on="build_tooltip_updater(top_tooltip, 'Skip this video')">
                         <i class="fas fa-2x fa-running"></i>
                     </span>
-                    <span class="UI_button" v-on:click="reveal_early()"
+                    <span class="UI_button" 
+                          v-on:click="reveal_early()"
                           v-bind:style="get_css_disabled_style(is_revealed || !video_is_loaded)"
                           v-on="build_tooltip_updater(top_tooltip, 'Reveal video now')">
                         <i class="fas fa-2x fa-eye"></i>

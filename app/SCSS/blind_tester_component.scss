@@ -178,5 +178,8 @@ $UI_margin: 1em;
         flex-direction: row;
     }
 
-    
+    .Toolbox {
+        display: flex;
+        flex-direction: column;
+    }
 }
