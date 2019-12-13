@@ -41,3 +41,11 @@ MOCKED_API_RESPONSE = {
         ]
     }
 };
+
+//App options
+var MUSIC_FADING_TIME_S = 3;
+var linear_easing = x => x
+var logarithmic_easing = a => (t => (Math.exp(-a*t)-1)/(Math.exp(-a)-1))
+var exponential_easing = a => (t => (Math.exp(a*t)-1)/(Math.exp(a)-1))
+var MUSIC_FADING_EASING = logarithmic_easing(2);
+var VIDEO_CONTROLS = true;

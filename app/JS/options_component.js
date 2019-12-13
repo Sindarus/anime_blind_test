@@ -7,7 +7,8 @@ Vue.component('options-component', {
                 time_till_next_vid: MOCK_MODE ? 5 : 10,
                 watch_till_end: false,
                 show_who_has_seen: false
-            }
+            },
+            MUSIC_FADING_TIME_S: MUSIC_FADING_TIME_S
         }
     },
     mounted(){
@@ -48,7 +49,7 @@ Vue.component('options-component', {
                         <span>Time for watching the videos after they are revealed (sec.)</span>
                     </td>
                     <td class="option_control">
-                        <input type="number" min="1" v-model="options.time_till_next_vid">
+                        <input type="number" v-bind:min="MUSIC_FADING_TIME_S" v-model="options.time_till_next_vid">
                     </td>
                 </tr>
                 <tr v-on:click="options.watch_till_end = !options.watch_till_end">

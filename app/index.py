@@ -25,9 +25,10 @@ scss_bundle = Bundle(
 assets.register('scss_all', scss_bundle)
 
 js_bundle = Bundle(
+    '../JS/main.js',
+    '../JS/timer.js',
     '../JS/helpers.js',
     '../JS/vue.js',
-    '../JS/timer.js',
     '../JS/indexed_video_list.js',
     '../JS/player.js',
     '../JS/game_engine.js',
@@ -37,7 +38,6 @@ js_bundle = Bundle(
     '../JS/player_list_component.js',
     '../JS/player_adder_component.js',
     '../JS/options_component.js',
-    '../JS/main.js',
     '../JS/anime_blindtest_component.js',
     output='JS/all.js'
 )

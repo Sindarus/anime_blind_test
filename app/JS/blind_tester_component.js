@@ -11,20 +11,29 @@ Vue.component('blind-tester-component', {
             top_tooltip: { message: "" },
             bottom_tooltip: { message: "" },
             abort_waiting_for_video: () => {},
-            video_is_loaded: false
+            video_is_loaded: false,
+            VIDEO_CONTROLS: VIDEO_CONTROLS,
+            video_volume_animator: undefined
         };
     },
     mounted() {
         this.video_elt = this.$el.querySelector("video");
+        this.video_volume_animator = new PropertyAnimator(this.video_elt, "volume");
         this.timer = new Timer(x => this.count_down_value = x);
         this.video_elt.addEventListener('error', e => {
             this.stop_blindtest();
             console.log("There was an error on the video while blindtesting, cannot continue. error: ", e);
             alert("There was an error on the video while blindtesting, cannot continue. error:" + e);
         });
-        this.video_elt.addEventListener('canplaythrough', e => {
-            this.video_elt.focus();
-        });
+        this.video_elt.addEventListener('canplaythrough', e => this.video_elt.focus());
+        this.video_elt.addEventListener('pause', e => {
+            this.timer.pause();
+            this.video_volume_animator.pause();
+        })
+        this.video_elt.addEventListener('play', e => {
+            this.timer.resume();
+            this.video_volume_animator.resume();
+        })
     },
     methods: {
         start_blindtest() {
@@ -49,14 +58,30 @@ Vue.component('blind-tester-component', {
                 .then(() => {
                     this.is_revealed = true;
                     this.show_video_info();
-                    return this.timer.start(this.m_game_engine.options.time_till_next_vid);
+                    return this.timer.start(
+                        this.m_game_engine.options.time_till_next_vid - MUSIC_FADING_TIME_S,
+                        this.m_game_engine.options.time_till_next_vid
+                    );
                 })
                 .then(() => {
-                    if(! this.m_game_engine.options.watch_till_end) {
-                        this.blindtest_loop();
-                    }
+                    console.log("Starting fade out");
+                    if(this.m_game_engine.options.watch_till_end) return;
+                    return Promise.all([
+                        this.video_volume_animator.animate_property(0, 2000, MUSIC_FADING_EASING, 10),
+                        this.timer.start(MUSIC_FADING_TIME_S)
+                    ])
+                })
+                .then(() => {
+                    console.log("Fade out ended.");
+                    if(this.m_game_engine.options.watch_till_end) return;
+                    return this.blindtest_loop();
                 },(e) => {
+                    if(e === undefined) console.log("timer has been cleared");
                     // Timer has been .clear()'ed. Do nothing.
+                    else {
+                        console.log("An error has occured: ", e)
+                        return e
+                    }
                 })
         },
         reveal_early(){
@@ -121,6 +146,8 @@ Vue.component('blind-tester-component', {
         },
         reset(){
             this.video_elt.pause();
+            this.video_volume_animator.cancel()
+            this.video_elt.volume = 1;
             this.abort_waiting_for_video();
             this.timer.clear();
             this.is_revealed = false;
@@ -139,6 +166,7 @@ Vue.component('blind-tester-component', {
         timer_clicked(){
             this.timer.clear();
             this.infinite_timer = true;
+            this.video_volume_animator.cancel();
         },
         cur_vid_has_song() {
             return this.current_video.song !== undefined;
@@ -173,11 +201,10 @@ Vue.component('blind-tester-component', {
     },
     template: `
         <div class="blind_tester_component" v-show="m_game_engine.is_playing">
-            <video controls id="video"
+            <video id="video"
                    v-bind:style="{opacity: get_video_opacity()}"
-                   v-on:pause="timer.pause()"
-                   v-on:play="timer.resume()"
-                   v-on:ended="blindtest_loop()">
+                   v-on:ended="blindtest_loop()"
+                   v-bind:controls="VIDEO_CONTROLS">
             </video>
             <div class="UI_block top left">
                 <div class="Toolbox">

@@ -76,3 +76,52 @@ function get_css_disabled_style(is_disabled){
 function trim_whitespaces(str){
     return str.replace(/^\s+/, '').replace(/\s+$/, '');
 }
+
+class PropertyAnimator {
+    constructor(obj, prop){
+        this.pausable_interval = new PausableInterval();
+        this.obj = obj;
+        this.prop = prop;
+    }
+
+    async animate_property(new_value, duration, easing, interval) {
+        console.log("animating property", this.prop, " of ", this.obj);
+        this.original_value = this.obj[this.prop];
+        this.new_value = new_value;
+        const delta = new_value - this.original_value;
+        if (!delta || !duration || !easing || !interval) {
+            console.log("Nothing to animate, resolving now.")
+            this.obj[this.prop] = new_value;
+            return Promise.resolve();
+        }
+        const ticks = Math.floor(duration / interval);
+        let tick = 1;
+        return new Promise((resolve, reject) => {
+            this.pausable_interval.start(() => {
+                this.obj[this.prop] = this.original_value + (
+                    easing(tick / ticks) * delta
+                );
+                if (++tick === ticks) {
+                    this.pausable_interval.clear();
+                    resolve();
+                }
+            }, interval)
+            .then(resolve, reject);
+        });
+    }
+
+    pause(){ this.pausable_interval.pause(); }
+    resume(){ this.pausable_interval.resume(); }
+    is_cleared() { return this.pausable_interval.is_cleared(); }
+    cancel(){
+        if(this.is_cleared()) return;
+        this.pausable_interval.clear();
+        this.obj[this.prop] = this.original_value;
+    }
+    skip_to_end(){
+        if(this.is_cleared()) return;
+        this.pausable_interval.clear();
+        this.obj[this.prop] = this.new_value;
+    }
+}
+
