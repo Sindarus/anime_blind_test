@@ -249,11 +249,9 @@ Vue.component('blind-tester-component', {
                 <div id="timer" v-show="!is_revealed || !m_game_engine.options.watch_till_end"
                                 v-on:click="timer_clicked"
                                 v-bind:class="{ clickable: !infinite_timer }">
-                    <div class="timer_value_container">
-                        <span class="timer_value" v-show="!infinite_timer">{{ count_down_value }}</span>
-                        <span class="timer_cross" v-show="infinite_timer"><i class="fas fa-infinity"></i></span>
-                    </div>
-                    <div class="cross_overlay">
+                    <span id="timer_value" v-show="!infinite_timer">{{ count_down_value }}</span>
+                    <span id="timer_infinity" v-show="infinite_timer"><i class="fas fa-infinity"></i></span>
+                    <div id="cross_overlay">
                         <i class="fas fa-2x fa-times"></i>
                     </div>
                 </div>
