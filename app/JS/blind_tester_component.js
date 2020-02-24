@@ -85,10 +85,13 @@ Vue.component('blind-tester-component', {
                 })
         },
         reveal_early(){
-            if(!this.is_revealed){
-                this.timer.jump_to_end();
+            if(this.is_revealed) return;
+            if(this.infinite_timer){
                 this.is_revealed = true;
                 this.show_video_info();
+            }
+            else {
+                this.timer.jump_to_end();
             }
         },
         choose_video_to_blindtest() {
