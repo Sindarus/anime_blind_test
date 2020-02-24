@@ -1,6 +1,6 @@
 //Mocking options
 MOCK_MODE = false;
-if(window.location.hostname !== "localhost"){
+if(window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1"){
     MOCK_MODE = false;
 }
 MOCKED_API_RESPONSE = {
