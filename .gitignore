@@ -10,3 +10,4 @@ app/static/CSS/
 app/static/JS/
 autre/*
 node_modules/*
+.vscode

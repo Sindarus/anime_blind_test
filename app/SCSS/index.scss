@@ -38,6 +38,8 @@ html{
 
 body {
     margin: 0;
+
+    font-family: 'Lato', sans-serif;
 }
 
 #main_window_container{
@@ -78,6 +80,17 @@ body {
                 border-bottom: 2px solid $c_4;
             }
         }
+        #button_container{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            #blind_test_button {
+                margin: 20px;
+                @include user-select-none();
+            }
+        }
 
         &#right_half {
             display: flex;
@@ -85,18 +98,6 @@ body {
 
             #testable_animes_section{
                 flex: 1;
-            }
-
-            #button_container{
-                position: relative;
-                display: flex;
-                flex-direction: column;
-                align-items: flex-end;
-
-                #blind_test_button {
-                    margin: 20px;
-                    @include user-select-none();
-                }
             }
         }
     }

@@ -11,7 +11,14 @@ let app = new Vue({
         blindtest_is_ready(){
             return this.game_engine.compute_testable_animes_pool().length > 0;
         },
-        get_css_disabled_style: get_css_disabled_style
+        get_css_disabled_style: get_css_disabled_style,
+        on_toggle_anime_selection(event){
+            this.game_engine.toggle_anime_selection(event["anime_name"], event["selected"])
+        },
+        clear_grey_lists(){
+            this.game_engine.anime_blacklist = [];
+            this.game_engine.anime_whitelist = [];
+        }
     },
     template: `
         <div id="app_container">
@@ -21,27 +28,31 @@ let app = new Vue({
                         <div class="section" id="players">
                             <h4>Players</h4>
                             <div id="username_form">
-                                <player-list-component v-bind:players="game_engine.players"></player-list-component>
+                                <player-list-component v-bind:players="game_engine.players"
+                                                       v-bind:dark_mode="false"></player-list-component>
                                 <player-adder-component v-bind:m_game_engine="game_engine"></player-adder-component>
-                            </div>
-                            <div id="playerlist">
                             </div>
                         </div>
                         <div class="section" id="options">
                             <h4>Options</h4>
-                            <options-component v-on:update:options="game_engine.options = $event"></options-component>
+                            <options-component v-on:update:options="game_engine.options = $event"
+                                               v-on:anime-selection-method-changed="clear_grey_lists()">
+                            </options-component>
+                        </div>
+                        <div id="button_container" v-bind:style="get_css_disabled_style(!blindtest_is_ready())">
+                            <div class="button" id="blind_test_button" v-on:click="trigger_blind_tester_component()">
+                                Blind test me !
+                            </div>
                         </div>
                     </div>
                     <div id="vertical_separator"></div>
                     <div id="right_half">
                         <div class="section" id="testable_animes_section">
                             <h4>List of testable animes</h4>
-                            <testable-animes-list-component v-bind:m_game_engine="game_engine"></testable-animes-list-component>
-                        </div>
-                        <div id="button_container" v-bind:style="get_css_disabled_style(!blindtest_is_ready())">
-                            <div class="button" id="blind_test_button" v-on:click="trigger_blind_tester_component()">
-                                Blind test me !
-                            </div>
+                            <testable-animes-list-component
+                                v-bind:m_game_engine="game_engine"
+                                v-on:toggle-anime-selection="on_toggle_anime_selection($event)">
+                            </testable-animes-list-component>
                         </div>
                     </div>
                 </div>

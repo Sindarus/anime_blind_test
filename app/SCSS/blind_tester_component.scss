@@ -27,6 +27,26 @@ $UI_margin: 1em;
     width: 100vw;
     overflow: hidden;
 
+    .loading_spinner_overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+
+        width: 100%;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        pointer-events: none;
+
+        .spinner {
+            font-size: 3em;
+        }
+    }
+
     #video {
         /*border: 3px red solid;*/
         height: 100%;
@@ -63,25 +83,22 @@ $UI_margin: 1em;
         padding: 0;
         margin: 4em;
 
+        height: 3em;
+        width: 3em;
+
         position: relative;
+        @include flex_center();
 
-        .timer_value_container {
-            @include flex_center();
+        #timer_value {
+            font-size: 3em;
+            font-weight: bold;
 
-            .timer_value {
-                font-size: 3em;
-                font-weight: bold;
+            pointer-events: none; // so that hover will pass through
 
-                pointer-events: none; // so that hover will pass through
-
-                @include outlined(0.05em);
-            }
-            .timer_cross {
-
-            }
+            @include outlined(0.05em);
         }
 
-        .cross_overlay {
+        #cross_overlay {
             visibility: hidden;
             font-size: 1.5em;
 
@@ -101,11 +118,11 @@ $UI_margin: 1em;
             pointer-events: all;
 
             &:hover {
-                .timer_value {
+                #timer_value {
                     opacity: 0.5;
                 }
 
-                .cross_overlay {
+                #cross_overlay {
                     visibility: visible;
                 }
             }
@@ -114,6 +131,18 @@ $UI_margin: 1em;
 
     .UI_button{
         padding: 10px;
+    }
+
+    .tooltip {
+        display: inline-block;
+
+        color: #555555;
+        background-color: white;
+
+        padding: 8px;
+        border-radius: 5px;
+
+        margin: 10px;
     }
 
     .UI_block {
@@ -139,5 +168,10 @@ $UI_margin: 1em;
     .left {
         position: fixed;
         left: $UI_margin;
+    }
+
+    .Players_icons {
+        display: flex;
+        flex-direction: row;
     }
 }

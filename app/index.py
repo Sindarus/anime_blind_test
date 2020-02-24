@@ -1,6 +1,6 @@
 # coding: utf8
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, Response
 from flask_assets import Environment
 from webassets import Bundle
 
@@ -14,18 +14,21 @@ assets.url = app.static_url_path
 
 scss_bundle = Bundle(
     '../SCSS/index.scss',
-    '../SCSS/player.scss',
+    '../SCSS/player_component.scss',
     '../SCSS/options_component.scss',
     '../SCSS/testable_animes_list.scss',
     '../SCSS/blind_tester_component.scss',
+    '../SCSS/player_list_component.scss',
+    '../SCSS/player_adder_component.scss',
     filters='pyscss', output='CSS/index.css'
 )
 assets.register('scss_all', scss_bundle)
 
 js_bundle = Bundle(
+    '../JS/main.js',
+    '../JS/timer.js',
     '../JS/helpers.js',
     '../JS/vue.js',
-    '../JS/timer.js',
     '../JS/indexed_video_list.js',
     '../JS/player.js',
     '../JS/game_engine.js',
@@ -35,11 +38,16 @@ js_bundle = Bundle(
     '../JS/player_list_component.js',
     '../JS/player_adder_component.js',
     '../JS/options_component.js',
-    '../JS/main.js',
     '../JS/anime_blindtest_component.js',
     output='JS/all.js'
 )
 assets.register('js_all', js_bundle)
+
+fa_bundle = Bundle(
+    '../JS/font-awesome.js',
+    output='JS/fa_bundle.js'
+)
+assets.register('fa_all', fa_bundle)
 
 
 @app.route('/')
@@ -74,3 +82,16 @@ def get_testable_videos_from_mal():
     }
 
     return jsonify(response_dict)
+
+@app.route('/api/v1/get-profile-picture-url/from-MAL', methods=['POST'])
+def get_profile_pic_url():
+    mal_username = request.form['MAL_username']
+
+    profile_pic_url = MALAnimeListLoader.get_profile_picture_url(mal_username)
+
+    if profile_pic_url is None:
+        return Response(status=404)
+    else:
+        return jsonify({
+            "profile_picture_url": profile_pic_url
+        })
