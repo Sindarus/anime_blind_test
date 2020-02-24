@@ -109,12 +109,12 @@ Vue.component('blind-tester-component', {
         },
         load_current_video() {
             this.video_elt.setAttribute("src", this.get_current_video_source());
-            this.video_elt.load();
 
             return new Promise((resolve, reject) => {
                 this.video_elt.addEventListener('canplaythrough', () => {
                     resolve();
                 });
+                this.video_elt.load();
                 this.abort_waiting_for_video = () => {
                     reject();
                 };
